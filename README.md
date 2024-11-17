@@ -1,2 +1,1 @@
-Johannes Abraham
-Hello wassup hows life
+Fuck you gay ass nigga
