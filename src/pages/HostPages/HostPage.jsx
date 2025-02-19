@@ -1,0 +1,58 @@
+import React from 'react'
+import { Routes, Route, NavLink } from 'react-router-dom';
+import HostProfile from './HostProfile'
+import MenuPage from './MenuPage'
+import Orders from './Orders'
+
+
+const HostPage = () => {
+  return (
+    <section className='bg-gray-400'>
+    <div className='fixed shadow-xl bg-white w-20 h-screen left-0'>
+      <div className='flex flex-col text-center
+       gap-10'>
+        <NavLink
+            to="orders"
+            className={({ isActive }) =>
+              `rounded-xl mx-auto mt-24 w-14 h-14 ${
+                isActive ? 'bg-orange-500' : 'bg-yellow-500'
+              }`
+            }
+          >
+            <p className="text-white mt-4 text-sm">Orders</p>
+          </NavLink>
+          <NavLink
+            to="menu"
+            className={({ isActive }) =>
+              `rounded-xl mx-auto w-14 h-14 ${
+                isActive ? 'bg-orange-500' : 'bg-yellow-500'
+              }`
+            }
+          >
+            <p className="text-white mt-4 text-sm">Menu</p>
+          </NavLink>
+          <NavLink
+            to="profile"
+            className={({ isActive }) =>
+              `rounded-xl mx-auto w-14 h-14 ${
+                isActive ? 'bg-orange-500' : 'bg-yellow-500'
+              }`
+            }
+          >
+            <p className="text-white mt-4 text-sm">Profile</p>
+          </NavLink>
+      </div>
+    </div>
+    <div className='text-center bg-gray-300'>
+      <Routes>
+            <Route path="orders" element={<Orders />} />
+            <Route path="profile" element={<HostProfile />} />
+            <Route path="menu" element={<MenuPage />} />
+      </Routes>
+    </div>
+    </section>
+
+  )
+}
+
+export default HostPage
