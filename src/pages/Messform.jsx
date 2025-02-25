@@ -43,102 +43,106 @@ export default function Mpage() {
             setWorkingHours('');
             setPassword('');
             setConfirmPassword('');
-
-            navigate('/messLogin');
+            
+            if (!ownername || !messname || !location || !email || !phone || !workinghours || !password){
+                alert("All fields are required.")
+            } else {
+                navigate('/host/messLogin');
+            }
         } catch (err) {
             console.error('Error saving item:', err);
         }
     };
 
     return (
-        <div className="main">
-            <h1 className="m-11">Register your mess</h1>
+        <div className="flex items-center justify-center flex-col">
+            <h1 className="m-4">Register your mess</h1>
             <form onSubmit={handleSubmit}>
-                <div className='container'>
-                    <h2 className="text-left">Basic Details</h2>
+                <div className='flex flex-col items-center text-centre m-7 bg-yellow-400 rounded-2xl'>
+                    <h2 className="text-center mt-4">Basic Details</h2>
                     <input
                         value={ownername}
                         onChange={(e) => setOwnername(e.target.value)}
                         type="text"
                         placeholder="Owner name"
-                        className="input input-bordered w-full max-w-xs"
+                        className="m-3 p-2 w-2/3"
                     />
                     <input
                         value={messname}
                         onChange={(e) => setMessname(e.target.value)}
                         type="text"
                         placeholder="Mess name"
-                        className="input input-bordered w-full max-w-xs"
+                        className="p-2 w-2/3 m-3"
                     />
                     <input
                         value={location}
                         onChange={(e) => setLocation(e.target.value)}
                         type="text"
                         placeholder="Location"
-                        className="input input-bordered w-full max-w-xs"
+                        className="p-2 w-2/3 m-3"
                     />
-                    <label className="form-control w-full max-w-xs">
+                    <label className="p-2">
                         <div className="label">
-                            <span className="label-text imglabel">Add image</span>
+                            <span className="">Add image</span>
                         </div>
                     </label>
-                    <input type="file" className="file-input file-input-bordered w-full max-w-xs mb-10" />
+                    <input type="file" className="p-2 w-2/3 m-6" />
                 </div>
     
-                <div className='container'>
-                    <h2>Owner contact</h2>
+                <div className='flex flex-col items-center text-centre m-7 bg-yellow-400 rounded-2xl'>
+                    <h2 className='text-center mt-4'>Owner contact</h2>
                     <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Mail ID"
-                        className="input input-bordered w-full max-w-xs"
+                        className="p-2 w-2/3 m-3"
                     />
                     <input
                         type="text"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         placeholder="Mobile number"
-                        className="input input-bordered w-full max-w-xs mb-10"
+                        className="p-2 w-2/3 mb-6"
                     />
                 </div>
                 
-                <div className='container'>
-                    <h2>Working Hours</h2>
+                <div className='flex flex-col items-center m-7 bg-yellow-400 rounded-2xl'>
+                    <h2 className='text-center m-4'>Working Hours</h2>
                     <input
                         type="text"
                         value={workinghours}
                         onChange={(e) => setWorkingHours(e.target.value)}
                         placeholder="Working Hours"
-                        className="input input-bordered w-full max-w-xs mb-10"
+                        className="p-2 w-2/3 mb-6"
                     />
                 </div>
                 
-                <div className='container'>
-                    <h2>Create password</h2>
+                <div className='flex flex-col m-7 items-center bg-yellow-400 rounded-2xl'>
+                    <h2 className='text-center mt-4'>Create password</h2>
                     <input
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     type="password"
                     placeholder="Enter password"
-                    className="input input-bordered w-full max-w-xs"
+                    className="p-2 w-2/3 m-3"
                     />
                     <input
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         type="password"
                         placeholder="Re-enter Password"
-                        className="input input-bordered w-full max-w-xs mb-10"
+                        className="p-2 w-2/3 mb-6"
                     />
                 </div>
                 
-                <div className='main'>
-                    <button type="submit" className="mb-10">
+                <div className='flex items-center justify-center'>
+                    <button type="submit" className="m-6 bg-black text-white p-3 rounded-2xl hover:bg-yellow-400 hover:text-black transition duration-300">
                         Sign up
                     </button>
                 </div>
-                
             </form>
+            <a className='m-5' href="/host/messLogin">Already have an account? Click here to sign in</a>
         </div>
     );
 }
