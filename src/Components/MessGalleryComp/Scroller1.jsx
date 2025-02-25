@@ -18,11 +18,11 @@ const Scroller1 = () => {
     },[]);
 
     return (
-        <div className="flex overflow-x-auto gap-4 p-4">
+        <div className="flex overflow-x-scroll overflow-y-hidden gap-4 p-4">
             {items.map((item, index) => (
                 <div
                     key={index}
-                    className="flex-shrink-0 w-80 h-60 rounded-lg shadow-lg overflow-hidden flex flex-col"
+                    className="w-80 h-60 rounded-lg shadow-lg flex flex-col"
                 >
                     {/* Image */}
                     <div className="h-60">
