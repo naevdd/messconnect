@@ -14,7 +14,7 @@ const MessGallery = () => {
         axios.get("http://localhost:5000/allmesses")
             .then((response) => {
                 setItems(response.data);
-                console.log("Fetched items:", response.data);
+                console.log("Fetched all items:", response.data);
             })
             .catch((error) => {
                 console.error("Error in fetching data ", error);
@@ -25,6 +25,7 @@ const MessGallery = () => {
         axios.get("http://localhost:5000/top_messes")
             .then((response) => {
                 setTopItems(response.data);
+                console.log("Fetched top items : ",response.data)
             })
             .catch((error) => {
                 console.error(error);
@@ -34,7 +35,6 @@ const MessGallery = () => {
     const handleClick = () => {
         setShowAll(!showAll);
         console.log("Show items toggled:", !showAll);
-        
     };
 
     return (
