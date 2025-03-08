@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-    background-color: rgb(245, 241, 174);
+    background-color: rgb(255, 255, 255);
     font-family: satoshi;
 }
 
