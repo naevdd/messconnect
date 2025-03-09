@@ -1,47 +1,92 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const MenuPage = () => {
-  // State to manage the selected day and the meal details for each day
   const [selectedDay, setSelectedDay] = useState("Monday");
-  const [menuDetails, setMenuDetails] = useState({
-    Monday: { breakfast: "", lunch: "", dinner: "" },
-    Tuesday: { breakfast: "", lunch: "", dinner: "" },
-    Wednesday: { breakfast: "", lunch: "", dinner: "" },
-    Thursday: { breakfast: "", lunch: "", dinner: "" },
-    Friday: { breakfast: "", lunch: "", dinner: "" },
-    Saturday: { breakfast: "", lunch: "", dinner: "" },
-    Sunday: { breakfast: "", lunch: "", dinner: "" },
-  });
-
-  // State to toggle editable mode
+  const [menuDetails, setMenuDetails] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const hostId = "678e09d65c15eff2ce1a8979"; // Example ObjectId
 
-  // Function to handle day selection
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/get-menu/${hostId}`);
+        console.log("Fetched menu data:", response.data);
+        const transformedMenu = response.data.weeklyMenu.reduce((acc, day) => {
+          acc[day.day] = {
+            Breakfast: day.meals.find((meal) => meal.type === "Breakfast")?.items || [],
+            Lunch: day.meals.find((meal) => meal.type === "Lunch")?.items || [],
+            Dinner: day.meals.find((meal) => meal.type === "Dinner")?.items || [],
+          };
+          return acc;
+        }, {});
+        console.log("Transformed menu data:", transformedMenu);
+        setMenuDetails(transformedMenu);
+      } catch (error) {
+        console.error("Error fetching menu:", error);
+      }
+    };
+
+    fetchMenu();
+  }, [hostId]);
+
   const handleDayClick = (day) => {
     setSelectedDay(day);
-    setIsEditing(false); // Reset to non-editable when switching days
+    setIsEditing(false);
   };
 
-  // Function to handle input changes for meals
-  const handleMealChange = (meal, value) => {
+  const handleMealChange = (meal, index, value) => {
+    setMenuDetails((prevDetails) => {
+      const updatedItems = [...(prevDetails[selectedDay]?.[meal] || [])];
+      updatedItems[index] = value;
+      return {
+        ...prevDetails,
+        [selectedDay]: {
+          ...prevDetails[selectedDay],
+          [meal]: updatedItems,
+        },
+      };
+    });
+  };
+
+  const addMealItem = (meal) => {
     setMenuDetails((prevDetails) => ({
       ...prevDetails,
       [selectedDay]: {
         ...prevDetails[selectedDay],
-        [meal]: value,
+        [meal]: [...(prevDetails[selectedDay]?.[meal] || []), ""],
       },
     }));
   };
 
-  // Function to handle save
-  const handleSaveChanges = () => {
-    alert("Changes saved successfully!");
-    setIsEditing(false); // Disable editing after saving
+  const handleSaveChanges = async () => {
+    try {
+      const menu = [
+        { type: "Breakfast", items: menuDetails[selectedDay]?.Breakfast || [] },
+        { type: "Lunch", items: menuDetails[selectedDay]?.Lunch || [] },
+        { type: "Dinner", items: menuDetails[selectedDay]?.Dinner || [] },
+      ];
+  
+      const weeklyMenu = [{ day: selectedDay, meals: menu }];
+  
+      console.log("Sending to backend:", { hostId, weeklyMenu });
+  
+      const response = await axios.put("http://localhost:5000/update-menu", {
+        hostId,
+        weeklyMenu,
+      });
+  
+      alert(response.data.message || "Changes saved successfully!");
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Error updating menu:", error);
+      alert("Failed to save changes.");
+    }
   };
+  
 
   return (
     <section>
-      {/* Header */}
       <div className="bg-white fixed z-50 shadow-xl border border-black justify-between flex w-full h-16 text-center">
         <p className="text-left text-2xl ml-44 my-auto">MENU</p>
         <div className="bg-yellow-500 mr-5 rounded-xl w-12 my-auto h-12">
@@ -49,9 +94,7 @@ const MenuPage = () => {
         </div>
       </div>
 
-      {/* Content */}
       <div className="flex justify-between p-20 flex-row gap-24">
-        {/* Left Section: Days of the Week */}
         <div className="ml-20 mt-10 shadow-md rounded-xl w-1/3 bg-white">
           <ul className="flex flex-col p-4">
             {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
@@ -66,54 +109,36 @@ const MenuPage = () => {
           </ul>
         </div>
 
-        {/* Right Section: Meal Details */}
         <div className="mr-20 mt-10 shadow-md rounded-xl w-1/2 p-8 h-auto bg-white">
           <h2 className="text-2xl font-semibold mb-10">{selectedDay} Menu</h2>
 
-          {/* Editable Meal Fields */}
-          <div className="mb-10">
-            <label className="block text-sm mb-2 font-medium text-gray-700">Breakfast</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={menuDetails[selectedDay].breakfast}
-                onChange={(e) => handleMealChange("breakfast", e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p>{menuDetails[selectedDay].breakfast || "No data"}</p>
-            )}
-          </div>
+          {["Breakfast", "Lunch", "Dinner"].map((meal) => (
+            <div key={meal} className="mb-10">
+              <label className="block text-sm mb-2 font-medium text-gray-700">{meal}</label>
+              {isEditing ? (
+                <>
+                  {(menuDetails[selectedDay]?.[meal] || [""]).map((item, index) => (
+                    <input
+                      key={index}
+                      type="text"
+                      value={item}
+                      onChange={(e) => handleMealChange(meal, index, e.target.value)}
+                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                    />
+                  ))}
+                  <button
+                    onClick={() => addMealItem(meal)}
+                    className="mt-2 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600"
+                  >
+                    Add Item
+                  </button>
+                </>
+              ) : (
+                <p>{(menuDetails[selectedDay]?.[meal] || []).join(", ") || "No data"}</p>
+              )}
+            </div>
+          ))}
 
-          <div className="mb-10">
-            <label className="block text-sm mb-2 font-medium text-gray-700">Lunch</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={menuDetails[selectedDay].lunch}
-                onChange={(e) => handleMealChange("lunch", e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p>{menuDetails[selectedDay].lunch || "No data"}</p>
-            )}
-          </div>
-
-          <div className="mb-10">
-            <label className="block text-sm mb-2 font-medium text-gray-700">Dinner</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={menuDetails[selectedDay].dinner}
-                onChange={(e) => handleMealChange("dinner", e.target.value)}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p>{menuDetails[selectedDay].dinner || "No data"}</p>
-            )}
-          </div>
-
-          {/* Edit/Save Buttons */}
           <div className="flex justify-between">
             {isEditing ? (
               <button

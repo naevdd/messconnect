@@ -28,7 +28,7 @@ function App() {
         <Route path='/studentLogin' element={<Slogin/>}/>
         <Route path='/protected' element={<ProtectedPage/>}/>
         <Route path='/host/protected2' element={<ProtectedPage2/>}/>
-        <Route path='/messgallery' element={<MessGallery/>}/>
+        <Route path='/mess' element={<MessGallery/>}/>
         <Route path='/indmess/:id' element={<IndMessPage/>}/>
       </Routes>
     </Router>
