@@ -3,47 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 
 const Orders = () => {
-    const [message, setMessage] = useState('');
-    const [token, setToken] = useState('');
-    const navigate = useNavigate();
 
-    useEffect(() => {
-
-      window.history.pushState(null, null, window.location.href);
-      window.onpopstate = () => {
-          window.history.go(1);
-      };
-      
-      const storedToken = localStorage.getItem('token');
-      setToken(storedToken);
-      if (!storedToken) {
-        setMessage('Unauthorized. Please log in.');
-        return;
-      }
-
-      const controller = new AbortController();
-      const fetchData = async () => {
-        try {
-          const response = await axios.get('http://localhost:3000/host/protected', {
-            headers: { Authorization: `Bearer ${storedToken}` },
-            signal: controller.signal,
-          });
-          setMessage(response.data.message);
-        } catch (err) {
-          if (axios.isCancel(err)) return;
-          setMessage('Access denied. Invalid token.');
-        }
-      };
-
-      fetchData();
-
-      return () => controller.abort();
-    }, []);
-
-    const handleLogout = () => {
-      localStorage.removeItem('token');
-      navigate('/host/messLogin');
-    };
 
     const orders = Array.from({ length: 15 }, (_, i) => ({
         id: i + 1,

@@ -7,47 +7,7 @@ import Orders from './Orders'
 
 
 const HostPage = () => {
-  const [message, setMessage] = useState('');
-  const [token, setToken] = useState('');
-  const navigate = useNavigate();
 
-  useEffect(() => {
-
-    window.history.pushState(null, null, window.location.href);
-    window.onpopstate = () => {
-        window.history.go(1);
-    };
-    
-    const storedToken = localStorage.getItem('token');
-    setToken(storedToken);
-    if (!storedToken) {
-      navigate('/host/messLogin');
-      return;
-    }
-
-    const controller = new AbortController();
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/host/protected', {
-          headers: { Authorization: `Bearer ${storedToken}` },
-          signal: controller.signal,
-        });
-        setMessage(response.data.message);
-      } catch (err) {
-        if (axios.isCancel(err)) return;
-        setMessage('Access denied. Invalid token.');
-      }
-    };
-
-    fetchData();
-
-    return () => controller.abort();
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/host/messLogin');
-  };
 
   return (
     <section className='bg-gray-400'>
@@ -84,11 +44,6 @@ const HostPage = () => {
           >
             <p className="text-white mt-4 text-sm">Profile</p>
           </NavLink>
-          <button 
-        onClick={handleLogout} 
-        className="mt-5 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
-        Logout
-      </button>
       </div>
     </div>
     <div className='text-center bg-gray-300'>
