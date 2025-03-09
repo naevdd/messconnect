@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require('tailwind-scrollbar-hide')],
 };
 import daisyui from "daisyui"
 /** @type {import('tailwindcss').Config} */

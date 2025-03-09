@@ -1,4 +1,5 @@
 import arrow from "../assets/down-arrow.png"
+import MessGallery from "./MessGallery"
 import {TypeAnimation} from 'react-type-animation'
 import '../index.css'
 
