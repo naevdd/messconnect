@@ -1,1 +1,1 @@
-mess services platform.
+mess services platform
