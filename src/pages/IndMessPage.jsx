@@ -55,7 +55,7 @@ function IndMessPage() {
                       <strong>Timings:</strong> {mess.time}
                     </li>
                     <li>
-                      <strong>Locations Served:</strong> {mess.locations}
+                      <strong>Locations Served:</strong> {mess.location}
                     </li>
                     <li>
                       <strong>Price:</strong> {mess.price}

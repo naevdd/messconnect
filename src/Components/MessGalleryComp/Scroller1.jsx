@@ -27,7 +27,7 @@ const Scroller1 = () => {
                     <div className="h-60">
                         <img
                             src={item.image || "default-image-path.jpg"}
-                            alt={item.messName || "Mess Name"}
+                            alt={item.messname || "Mess Name"}
                             className="w-full h-full object-cover "
                         />
                     </div>
