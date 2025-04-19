@@ -49,10 +49,16 @@ const MessGallery = () => {
                                 <div className="h-60">
                                     <img src={item.image || "default-image-path.jpg"} alt={item.messname || "Mess Name"} className="w-full h-full object-cover" />
                                 </div>
-                                <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-2 text-center rounded-lg">
-                                    <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
-                                    <p>Rating: {item.review || "N/A"}</p>
+                                <Link to={`/indmess/${encodeURIComponent(item.messname)}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-2 text-center rounded-lg">
+                                <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
+                                <p>
+                                    Rating:{" "}
+                                    {item.review_total > 0
+                                    ? (item.review_sum / item.review_total).toFixed(1)
+                                    : "N/A"}
+                                </p>
                                 </Link>
+
                             </div>
                         ))}
                     </div>
@@ -61,10 +67,16 @@ const MessGallery = () => {
                         {items.map((item) => (
                             <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
                                 <img src={item.image || "default-image-path.jpg"} alt={item.messName || "Mess Name"} className="w-full h-40 object-cover rounded-lg mb-4" />
-                                <Link to={`/indmess/${item._id}`} className="bg-yellow-300 text-lg flex flex-row justify-between p-2 rounded-lg">
-                                    <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
-                                    <h1>Rating: {item.review || "N/A"}</h1>
+                                <Link to={`/indmess/${encodeURIComponent(item.messname)}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-2 text-center rounded-lg">
+                                <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
+                                <p>
+                                    Rating:{" "}
+                                    {item.review_total > 0
+                                    ? (item.review_sum / item.review_total).toFixed(1)
+                                    : "N/A"}
+                                </p>
                                 </Link>
+
                             </div>
                         ))}
                     </div>

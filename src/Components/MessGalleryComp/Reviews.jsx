@@ -6,13 +6,13 @@ import { useParams } from "react-router-dom";
 function Reviews() {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
-  const { id } = useParams(); // Get the mess ID from the URL
+  const { messname } = useParams(); // Get the mess name from the URL
 
   const handleRatingClick = async (ratingValue) => {
     setRating(ratingValue);
 
     try {
-      const response = await axios.post(`http://localhost:5000/indmess/${id}/rate`, {
+      const response = await axios.post(`http://localhost:5000/indmess/${encodeURIComponent(messname)}/rate`, {
         rating: ratingValue,
       });
       console.log("Rating submitted:", response.data);

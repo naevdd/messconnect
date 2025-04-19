@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Homepage/>}/>
         <Route path='/messgallery' element={<MessGallery/>}/>
-        <Route path='/indmess/:id' element={<IndMessPage/>}/>
+        <Route path='/indmess/:messname' element={<IndMessPage/>}/>
       </Routes>
     </Router>
     </>

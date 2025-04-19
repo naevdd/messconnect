@@ -11,6 +11,7 @@ const ViewAll = () => {
         axios
             .get("http://localhost:5000/allmesses")
             .then((response) => {
+                console.log("ViewAll data = ",response.data);
                 setItems(response.data);
             })
             .catch((error) => {
@@ -24,7 +25,8 @@ const ViewAll = () => {
             itemsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
         }
     };
-
+    console.log("ITEMS = ",items);
+    
     return (
         <div className="p-4 mt-10">
             {/* Button */}
@@ -40,7 +42,7 @@ const ViewAll = () => {
                 <div ref={itemsRef} className="mt-20 grid grid-cols-3 gap-4">
                     {items.map((item) => (
                         <div
-                            key={item._id}
+                            key={item.messname}
                             className="w-72  h-60 rounded-lg shadow-lg flex flex-col"
                         >
                             {/* Image */}
@@ -54,11 +56,17 @@ const ViewAll = () => {
 
                             {/* Text */}
                             <Link
-                                to={`/indmess/${item._id}`}
+                                to={`/indmess/${item.messname}`}
                                 className="flex flex-row text-lg justify-between bg-yellow-300 p-2 text-center rounded-lg"
                             >
-                                <h1 className="font-semibold">{item.messName || "Unnamed Mess"}</h1>
-                                <p>Rating: {item.review || "N/A"}</p>
+                                <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
+                                <p>
+                                    Rating:{" "}
+                                    {item.review_total > 0
+                                    ? (item.review_sum / item.review_total).toFixed(1)
+                                    : "N/A"}
+                                </p>
+                                {/*<p>Rating: {item.review && !isNaN(item.review) ? Number(item.review).toFixed(1) : "N/A"}</p>*/}
                             </Link>
                         </div>
                     ))}
