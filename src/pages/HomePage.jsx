@@ -1,13 +1,13 @@
-import arrow from "../assets/down-arrow.png"
-import MessGallery from "./MessGallery"
-import {TypeAnimation} from 'react-type-animation'
-import '../index.css'
+import React from "react";
+import arrow from "../assets/down-arrow.png";
+import MessGallery from "./MessGallery";
+import { TypeAnimation } from "react-type-animation";
+import ThreeScene from "./ThreeScene";  // Import Three.js component
+import "../index.css";
 
 function Homepage() {
-
   return (
-    <>
-    <section className="text-center bg-yellow-400 p-8">
+    <section className="text-center w-screen bg-yellow-400 p-8">
     <div className='fixed p-2 left-0 right-0 mx-auto w-1/4 flex bg-white items-center justify-center border-black border-4 rounded-3xl'>
       <p className="font-satoshi font-bold text-3xl text-yellow-500">MESS CONNECT</p>
     </div>
@@ -27,6 +27,7 @@ function Homepage() {
           repeat={Infinity}
         />
       </p>
+      <ThreeScene/>
       <p className='absolute left-0 right-0 bottom-32 text-lg'>Get Started</p>
       <a href="#1"><img className='mx-auto absolute right-0 left-0 bottom-0 animate-bounce' src={arrow} width='100' height='100' alt="arrow"/></a>
     </div>
@@ -39,8 +40,7 @@ function Homepage() {
       </a>
     </div>
     </section>
-    </>
-  )
+  );
 }
 
-export default Homepage
+export default Homepage;
