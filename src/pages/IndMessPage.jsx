@@ -5,15 +5,15 @@ import NavBar from "../Components/MessGalleryComp/MessGalleryNav";
 import Reviews from "../Components/MessGalleryComp/Reviews";
 
 function IndMessPage() {
-  const [messData, setMessData] = useState([]);
+  const [mess, setMessData] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/indmess/${id}`) // Corrected endpoint
+      .get(`http://localhost:5000/indmess/${id}`) // Corrected endpoint 
       .then((response) => {
         console.log("Fetched data:", response.data); // Debug
-        setMessData([response.data]); // Ensure data is an array for mapping
+        setMessData(response.data); // Ensure data is an array for mapping
       })
       .catch((error) => {
         console.error("Error fetching mess data:", error);
@@ -21,13 +21,10 @@ function IndMessPage() {
   }, [id]);
 
   return (
-    <div>
+    <div className="m-10 mx-40">
       <NavBar />
       <div className="gap-4 mt-12">
-        {messData.length > 0 ? (
-          messData.map((mess) => (
             <div
-              key={mess._id}
               className="flex flex-row rounded-xl max-h-max overflow-hidden"
             >
               {/* Left Section: Image and Mess Name */}
@@ -36,13 +33,13 @@ function IndMessPage() {
                 <div className="h-full w-full rounded-xl">
                   <img
                     src={mess.image || "default-image-path.jpg"} // Default image
-                    alt={mess.messName || "Mess Name"}
+                    alt={mess.messname || "Mess Name"}
                   />
                 </div>
 
                 {/* Mess Name */}
                 <div className="bg-yellow-300 py-4 text-center text-4xl mt-5 font-semibold rounded-xl">
-                  <h1>{mess.messName}</h1>
+                  <h1>{mess.messname}</h1>
                 </div>
               </div>
 
@@ -55,13 +52,15 @@ function IndMessPage() {
                       <strong>Timings:</strong> {mess.time}
                     </li>
                     <li>
-                      <strong>Locations Served:</strong> {mess.locations}
+                      <strong>Locations Served:</strong> {mess.location}
                     </li>
                     <li>
                       <strong>Price:</strong> {mess.price}
                     </li>
                     <li>
-                      <strong>Food for the Day:</strong> {mess.food}
+                      <p>Breakfast:{mess.breakfast}</p>
+                      <p>Lunch:{mess.lunch}</p>
+                      <p>Dinner:{mess.dinner}</p>
                     </li>
                   </ul>
                 </div>
@@ -76,10 +75,7 @@ function IndMessPage() {
                 </div>
               </div>
             </div>
-          ))
-        ) : (
-          <div className="text-center mt-20 text-2xl">Loading mess details...</div>
-        )}
+
       </div>
     </div>
   );

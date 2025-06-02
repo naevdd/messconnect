@@ -5,7 +5,7 @@ const MenuPage = () => {
   const [selectedDay, setSelectedDay] = useState("Monday");
   const [menuDetails, setMenuDetails] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const hostId = "678e09d65c15eff2ce1a8979"; // Example ObjectId
+  const hostId = "6800ce96ec3d703f0ecae5bb"; // Example ObjectId
 
   useEffect(() => {
     const fetchMenu = async () => {
