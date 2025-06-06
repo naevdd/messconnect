@@ -19,7 +19,7 @@ export default function Mlogin(){
             localStorage.setItem('token', recievedToken); 
             setToken(recievedToken);
             alert('Login successful! Token stored.');
-            navigate('/host');
+            navigate('/host',{ replace: true });
     
         } catch (err) {
             console.error('Login failed:', err);
@@ -32,8 +32,8 @@ export default function Mlogin(){
             <div className='flex items-center justify-center flex-col bg-yellow-400 text-center rounded-2xl'>
                 <h1 className='p-3'>Mess Login</h1>
                 <form onSubmit={handleLogin}>
-                    <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder="Mail ID" className="w-2/3 p-2 m-3" />
-                    <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" className="w-2/3 p-2 m-3" />
+                    <input value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder="Mail ID" className="w-2/3 p-2 m-3 bg-white" />
+                    <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" className="w-2/3 p-2 m-3 bg-white" />
                     <div className='flex justify-center'>
                         <button action="submit" className='m-6 bg-black text-white p-3 rounded-2xl hover:bg-white hover:text-black transition duration-300'>Login</button>
                     </div>
