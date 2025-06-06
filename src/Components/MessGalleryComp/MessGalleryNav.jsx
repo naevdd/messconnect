@@ -21,16 +21,7 @@ function MessGalleryNav(){
                 <a href="/" class="block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 md:dark:text-yellow-300" aria-current="page">Home</a>
                 </li>
                 <li>
-                <a href="#" class="block py-2 px-3  hover:bg-gray-100  md:border-0 md:p-0 dark:text-white md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">About</a>
-                </li>
-                <li>
-                <a href="#" class="block py-2 px-3  hover:bg-gray-100 md:border-0 md:p-0 dark:text-white md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">Services</a>
-                </li>
-                <li>
-                <a href="#" class="block py-2 px-3  hover:bg-gray-100 md:border-0 md:p-0 dark:text-white md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">Pricing</a>
-                </li>
-                <li>
-                <a href="#" class="block py-2 px-3  hover:bg-gray-100 md:border-0 md:p-0 dark:text-white md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">Contact</a>
+                <a href="/studentprofile" class="block py-2 px-3  hover:bg-gray-100 md:border-0 md:p-0 dark:text-white md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">Profile</a>
                 </li>
             </ul>
             </div>

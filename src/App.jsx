@@ -10,6 +10,7 @@ import ProtectedPage from './pages/protected';
 import ProtectedPage2 from './pages/protected2'
 import MessGallery from './pages/MessGallery';
 import IndMessPage from './pages/IndMessPage';
+import StudP from './pages/StudentProfile'
 import './App.css'
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route path='/host/messLogin' element={<Mlogin/>}/>
         <Route path='/studentRegistration' element={<Spage/>}/>
         <Route path='/studentLogin' element={<Slogin/>}/>
+        <Route path='/studentprofile' element={<StudP/>}/>
         <Route path='/protected' element={<ProtectedPage/>}/>
         <Route path='/host/protected2' element={<ProtectedPage2/>}/>
         <Route path='/mess' element={<MessGallery/>}/>
