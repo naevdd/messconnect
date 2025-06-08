@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 import axios from "axios";
 
 function StudP() {
@@ -7,8 +7,8 @@ function StudP() {
       studentName: "",
       hostelName: "",
       address: "",
-      emailId: "",
-      mobileNumber: "",
+      emailID: "",
+      phone: "",
     });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -22,11 +22,11 @@ function StudP() {
           const studentData = response.data[1];
           setProfile({
             id: studentData._id,
-            studentName: studentData.studentname,
-            hostelName: studentData.hostelname,
+            studentName: studentData.studentName,
+            hostelName: studentData.hostelName,
             address: studentData.address,
-            emailId: studentData.emailid,
-            mobileNumber: studentData.phone,
+            emailID: studentData.emailID,
+            phone: studentData.phone,
           });
         }
       } catch (error) {
@@ -74,7 +74,7 @@ function StudP() {
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 ) : (
-                <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{student.ownerName}</p>
+                <p className="mt-1 text-left block w-full px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.studentName}</p>
                 )}
             </div>  
             <div>
@@ -88,7 +88,7 @@ function StudP() {
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 ) : (
-                <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.hostelName}</p>
+                <p className="mt-1 text-left block w-full px-3 py-2 bg-white border-black rounded-md shadow-sm">{profile.hostelName}</p>
                 )}
             </div> 
             <div>
@@ -102,7 +102,7 @@ function StudP() {
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 ) : (
-                <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.address}</p>
+                <p className="mt-1 text-left block w-full px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.address}</p>
                 )}
             </div>            
             <div>
@@ -116,7 +116,7 @@ function StudP() {
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 ) : (
-                <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.emailId}</p>
+                <p className="mt-1 text-left block w-full px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.emailID}</p>
                 )}
             </div>
             <div>
@@ -130,7 +130,7 @@ function StudP() {
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 ) : (
-                <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.mobileNumber}</p>
+                <p className="mt-1 text-left block w-full px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.phone}</p>
                 )}
             </div> 
             <div>
