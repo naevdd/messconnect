@@ -6,8 +6,45 @@ import MenuPage from './MenuPage'
 import Orders from './Orders'
 
 
+
+
 const HostPage = () => {
 
+  const [token, setToken] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/host/messLogin");
+  };
+
+  useEffect(() => {        
+    const storedToken = localStorage.getItem('token');
+    setToken(storedToken);
+    if (!storedToken) {
+      navigate('/host/messLogin');
+      return;
+    }
+
+    const controller = new AbortController();
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/host/protected', {
+          headers: { Authorization: `Bearer ${storedToken}` },
+          signal: controller.signal,
+        });
+        setMessage(response.data.message);
+      } catch (err) {
+        if (axios.isCancel(err)) return;
+        nav
+      }
+    };
+
+    fetchData();
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <section className='bg-gray-400'>
@@ -44,6 +81,11 @@ const HostPage = () => {
           >
             <p className="text-white mt-4 text-sm">Profile</p>
           </NavLink>
+          <button 
+        onClick={handleLogout} 
+        className="mt-5 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
+        Logout
+      </button>
       </div>
     </div>
     <div className='text-center bg-gray-300'>
