@@ -17,6 +17,7 @@ export default function Mlogin(){
             
             const recievedToken = response.data.token;
             localStorage.setItem('token', recievedToken); 
+            localStorage.setItem('email', email);
             setToken(recievedToken);
             alert('Login successful! Token stored.');
             navigate('/host',{ replace: true });

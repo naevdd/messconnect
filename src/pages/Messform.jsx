@@ -118,12 +118,12 @@ export default function Mpage() {
                 </div>
                 
                 <div className='flex flex-col items-center m-7 bg-yellow-400 rounded-2xl'>
-                    <h2 className='text-center m-4'>Working Hours</h2>
+                    <h2 className='text-center m-4'>Working Days</h2>
                     <input
                         type="text"
                         value={workinghours}
                         onChange={(e) => setWorkingHours(e.target.value)}
-                        placeholder="Working Hours"
+                        placeholder="Number of working days"
                         className="p-2 w-2/3 mb-6 bg-white"
                     />
                 </div>
