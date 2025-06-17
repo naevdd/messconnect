@@ -18,10 +18,11 @@ const HostProfile = () => {
   useEffect(() => {
     const fetchHosts = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/hosts"); // Replace with your backend URL
+        const response = await axios.get("http://localhost:3000/hosts"); // Replace with your backend URL
         if (response.data.length > 0) {
           // Assuming the API returns an array of hosts, use the first one for display
-          const hostData = response.data[1];
+          const loggedInEmail = localStorage.getItem("email");
+          const hostData = response.data.find(h => h.email === loggedInEmail);
           setProfile({
             id: hostData._id,
             ownerName: hostData.ownername,
@@ -29,7 +30,7 @@ const HostProfile = () => {
             location: hostData.location,
             mailId: hostData.email,
             mobileNumber: hostData.phone,
-            workingDays: hostData.time,
+            workingDays: hostData.workinghours
           });
         }
       } catch (error) {
@@ -50,7 +51,10 @@ const HostProfile = () => {
 
   const handleSaveChanges = async () => {
     try {
-      const response = await axios.put("http://localhost:5000/hosts", profile);
+      const token = localStorage.getItem('token');
+      const response = await axios.put("http://localhost:3000/hosts", profile, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       console.log("Profile updated successfully:", response.data);
       alert("Profile changes saved successfully!");
       setIsEditing(false); // Disable edit mode after saving
@@ -76,10 +80,7 @@ const HostProfile = () => {
         <div className="ml-36 flex flex-col my-auto shadow-md rounded-full w-3/12 h-96 bg-white items-center justify-center">
           <div className="border bg-red-400 rounded-full w-64 h-64">
             {/* Profile Image */}
-            <img
-              src="https://via.placeholder.com/150"
-              className="rounded-full w-full h-full object-cover"
-            />
+            <img src="" alt="" />
           </div>
         </div>
 
