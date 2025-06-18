@@ -11,7 +11,7 @@ const MessGallery = () => {
     const itemsRef = useRef(null);
 
     useEffect(() => {
-        axios.get("http://localhost:5000/allmesses")
+        axios.get("http://localhost:3000/allmesses")
             .then((response) => {
                 setItems(response.data);
                 console.log("Fetched all items:", response.data);
@@ -22,7 +22,7 @@ const MessGallery = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:5000/top_messes")
+        axios.get("http://localhost:3000/top_messes")
             .then((response) => {
                 setTopItems(response.data);
                 console.log("Fetched top items : ",response.data)
