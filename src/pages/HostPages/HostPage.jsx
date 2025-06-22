@@ -15,15 +15,15 @@ const HostPage = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/host/messLogin");
+    localStorage.removeItem("messtoken");
+    navigate("/#1");
   };
 
   useEffect(() => {        
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem('messtoken');
     setToken(storedToken);
     if (!storedToken) {
-      navigate('/host/messLogin');
+      navigate('/#1');
       return;
     }
 

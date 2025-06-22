@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { Link } from "react-router-dom";
 import '../index.css';
@@ -9,6 +10,37 @@ const MessGallery = () => {
     const [topItems, setTopItems] = useState([]);
     const [showAll, setShowAll] = useState(false);
     const itemsRef = useRef(null);
+
+    const [token, setToken] = useState('');
+    const [message, setMessage] = useState('');
+    const navigate = useNavigate();
+
+    useEffect(() => {        
+        const storedToken = localStorage.getItem('token');
+        setToken(storedToken);
+        if (!storedToken) {
+        navigate('/');
+        return;
+        }
+
+        const controller = new AbortController();
+        const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3000/student/protected', {
+            headers: { Authorization: `Bearer ${storedToken}` },
+            signal: controller.signal,
+            });
+            setMessage(response.data.message);
+        } catch (err) {
+            if (axios.isCancel(err)) return;
+            nav
+        }
+        };
+
+        fetchData();
+
+        return () => controller.abort();
+    }, []);
 
     useEffect(() => {
         axios.get("http://localhost:3000/allmesses")
@@ -47,7 +79,7 @@ const MessGallery = () => {
                         {topItems.map((item) => (
                             <div key={item._id} className="w-80 h-60 rounded-lg shadow-lg flex flex-col">
                                 <div className="h-60">
-                                    <img src={item.image || "../Components/MessGalleryComp/bg.jpg"} alt={item.messname || "Mess Name"} className="w-full h-full object-cover" />
+                                    <img src={`http://localhost:3000/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-full object-cover" />
                                 </div>
                                 <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-2 text-center rounded-lg">
                                     <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
@@ -65,7 +97,7 @@ const MessGallery = () => {
                     <div ref={itemsRef} className="mt-10 grid grid-cols-3 gap-4">
                         {items.map((item) => (
                             <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
-                                <img src={item.image || "default-image-path.jpg"} alt={item.messname || "Mess Name"} className="w-full h-40 object-cover rounded-lg mb-4" />
+                                <img src={`http://localhost:3000/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-40 object-cover rounded-lg mb-4" />
                                 <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-2 text-center rounded-lg">
                                     <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
                                     <p>
