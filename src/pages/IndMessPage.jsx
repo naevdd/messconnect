@@ -5,20 +5,48 @@ import NavBar from "../Components/MessGalleryComp/MessGalleryNav";
 import Reviews from "../Components/MessGalleryComp/Reviews";
 
 function IndMessPage() {
-  const [mess, setMessData] = useState([]);
+  const [mess, setMessData] = useState({});
+  const[mealsToday,setMealsToday] = useState([]);
   const { id } = useParams();
 
   useEffect(() => {
     axios
       .get(`http://localhost:3000/indmess/${id}`) // Corrected endpoint 
+      .get(`http://localhost:3000/indmess/${id}`) // Corrected endpoint 
       .then((response) => {
         console.log("Fetched data:", response.data); // Debug
         setMessData(response.data); // Ensure data is an array for mapping
+
+        const today = new Date().toLocaleDateString('en-US', {weekend: 'long'});
+        const todayMenu = response.data.weeklyMenu.find((menu) => menu.day === today);
+        setMealsToday(todayMenu?todayMenu.meals:[]);
       })
       .catch((error) => {
         console.error("Error fetching mess data:", error);
       });
   }, [id]);
+
+  const handleOrderClick = async() => {
+    // Handle order click logic here
+    console.log("Order button clicked for mess:", mess.messname);
+    const orderDetails = {
+      orderId:Math.random().toString(36).substring(2, 15),
+      messName: mess.messname,
+      customerName:"Trial Name",
+      customerPhone: 9999999999,
+      status:"Pending",
+    }
+
+    try{
+      const response = await axios.post("http://localhost:3000/order", orderDetails);
+      alert("Order placed");
+      console.log("Order details = ",response.data);
+    }
+    catch(error){
+      console.error("Error placing order:", error);
+      alert("Failed to place order. Please try again.");
+    }
+  }
 
   return (
     <div className="m-10 mx-40">
@@ -45,22 +73,26 @@ function IndMessPage() {
 
               {/* Right Section: Details */}
               <div className="flex flex-col w-full md:w-1/2 rounded-xl">
-                <div className="bg-yellow-300 p-5 rounded-xl">
-                  <h2 className="text-4xl font-bold mb-8">Details</h2>
-                  <ul className="space-y-6 text-2xl text-left">
-                    <li>
-                      <strong>Timings:</strong> {mess.time}
+                <div className="bg-yellow-300 p-5 rounded-3xl">
+                  <h2 className="text-4xl font-bold text-center mb-8">Details</h2>
+                  <ul className="space-y-6 text-left">
+                    <li className="text-2xl">
+                      <strong >Timings:</strong> {mess.time}
                     </li>
-                    <li>
-                      <strong>Locations Served:</strong> {mess.location}
+                    <li className="text-2xl">
+                      <strong >Locations Served:</strong> {mess.location}
                     </li>
-                    <li>
-                      <strong>Price:</strong> {mess.price}
+                    <li className="text-2xl">
+                      <strong >Price:</strong> {mess.price}
                     </li>
+
                     <li>
-                      <p>Breakfast:{mess.breakfast}</p>
-                      <p>Lunch:{mess.lunch}</p>
-                      <p>Dinner:{mess.dinner}</p>
+                      <strong className="text-2xl">Meals for the day:</strong> {mess.contact}
+                      <ul className="list-disc ml-5 mt-2 space-y-1">
+                        <li className="text-l">Breakfast: {mealsToday.breakfast}</li>
+                        <li className="text-l">Lunch: {mealsToday.lunch}</li>
+                        <li className="text-l">Dinner: {mealsToday.dinner}</li>
+                      </ul>
                     </li>
                   </ul>
                 </div>
@@ -68,7 +100,7 @@ function IndMessPage() {
                   <Reviews />
                   {/* Order Button */}
                   <div className="mt-7 flex justify-center">
-                    <button className="bg-red-600 text-white px-6 py-2 rounded-full text-3xl hover:bg-red-700">
+                    <button className="bg-red-600 text-white px-6 py-2 rounded-full text-3xl hover:bg-red-700" onClick={handleOrderClick} >
                       Order
                     </button>
                   </div>

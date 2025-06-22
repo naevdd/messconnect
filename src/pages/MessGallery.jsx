@@ -73,7 +73,7 @@ const MessGallery = () => {
         <div className="p-10 px-40">
             <MessGalleryNav />
             <div>
-                <h1 className='mb-5 mt-10 text-left text-4xl ml-4'>{showAll ? "All Messes" : "Favourites"}</h1>
+                <h1 className='mb-5 mt-18 text-left text-4xl ml-4'>{showAll ? "All Messes" : "Favourites"}</h1>
                 {!showAll ? (
                     <div className="flex overflow-x-scroll overflow-y-hidden gap-4 p-4">
                         {topItems.map((item) => (
