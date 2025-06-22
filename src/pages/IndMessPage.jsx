@@ -12,6 +12,7 @@ function IndMessPage() {
   useEffect(() => {
     axios
       .get(`http://localhost:3000/indmess/${id}`) // Corrected endpoint 
+      .get(`http://localhost:3000/indmess/${id}`) // Corrected endpoint 
       .then((response) => {
         console.log("Fetched data:", response.data); // Debug
         setMessData(response.data); // Ensure data is an array for mapping
@@ -59,13 +60,13 @@ function IndMessPage() {
                 {/* Image */}
                 <div className="h-full w-full rounded-xl">
                   <img
-                    src={mess.image || "default-image-path.jpg"} // Default image
+                    src={mess.image} // Default image
                     alt={mess.messname || "Mess Name"}
                   />
                 </div>
 
                 {/* Mess Name */}
-                <div className="bg-yellow-300 py-4 text-center text-4xl mt-5 font-semibold rounded-3xl">
+                <div className="bg-yellow-300 py-4 text-center text-3xl mt-5 font-semibold rounded-xl">
                   <h1>{mess.messname}</h1>
                 </div>
               </div>

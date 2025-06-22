@@ -16,8 +16,7 @@ function StudP() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/student"); // Replace with your backend URL
-        console.log("Fetched students:", response.data);
+        const response = await axios.get("http://localhost:3000/student"); // Replace with your backend URL
         if (response.data.length > 0) {
           const studentData = response.data[1];
           setProfile({
@@ -47,7 +46,7 @@ function StudP() {
 
   const handleSaveChanges = async () => {
     try {
-      const response = await axios.put("http://localhost:5000/student", profile);
+      const response = await axios.put("http://localhost:3000/student", profile);
       console.log("Profile updated successfully:", response.data);
       alert("Profile changes saved successfully!");
       setIsEditing(false); // Disable edit mode after saving
