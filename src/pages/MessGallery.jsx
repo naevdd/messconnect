@@ -11,7 +11,7 @@ const MessGallery = () => {
     const itemsRef = useRef(null);
 
     useEffect(() => {
-        axios.get("http://localhost:5000/allmesses")
+        axios.get("http://localhost:3000/allmesses")
             .then((response) => {
                 setItems(response.data);
                 console.log("Fetched all items:", response.data);
@@ -22,7 +22,7 @@ const MessGallery = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:5000/top_messes")
+        axios.get("http://localhost:3000/top_messes")
             .then((response) => {
                 setTopItems(response.data);
                 console.log("Fetched top items : ",response.data)
@@ -41,7 +41,7 @@ const MessGallery = () => {
         <div className="p-10 px-40">
             <MessGalleryNav />
             <div>
-                <h1 className='mb-5 mt-10 text-left text-4xl ml-4'>{showAll ? "All Messes" : "Favourites"}</h1>
+                <h1 className='mb-5 mt-18 text-left text-4xl ml-4'>{showAll ? "All Messes" : "Favourites"}</h1>
                 {!showAll ? (
                     <div className="flex overflow-x-scroll overflow-y-hidden gap-4 p-4">
                         {topItems.map((item) => (

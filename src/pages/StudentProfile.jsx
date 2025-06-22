@@ -17,8 +17,8 @@ function StudP() {
     const fetchStudents = async () => {
       try {
         const response = await axios.get("http://localhost:5000/student"); // Replace with your backend URL
+        console.log("Fetched students:", response.data);
         if (response.data.length > 0) {
-          // Assuming the API returns an array of hosts, use the first one for display
           const studentData = response.data[1];
           setProfile({
             id: studentData._id,
