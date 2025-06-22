@@ -10,6 +10,7 @@ const HostProfile = () => {
     mailId: "",
     mobileNumber: "",
     workingDays: "",
+    image: ""
   });
 
   // State to toggle editable mode
@@ -30,7 +31,8 @@ const HostProfile = () => {
             location: hostData.location,
             mailId: hostData.email,
             mobileNumber: hostData.phone,
-            workingDays: hostData.workinghours
+            workingDays: hostData.workinghours,
+            image: hostData.image
           });
         }
       } catch (error) {
@@ -51,7 +53,7 @@ const HostProfile = () => {
 
   const handleSaveChanges = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('messtoken');
       const response = await axios.put("http://localhost:3000/hosts", profile, {
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -80,7 +82,7 @@ const HostProfile = () => {
         <div className="ml-36 flex flex-col my-auto shadow-md rounded-full w-3/12 h-96 bg-white items-center justify-center">
           <div className="border bg-red-400 rounded-full w-64 h-64">
             {/* Profile Image */}
-            <img src="" alt="" />
+            <img src={`http://localhost:3000/uploads/${profile.image}`} alt="" />
           </div>
         </div>
 
