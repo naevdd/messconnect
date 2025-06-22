@@ -4,10 +4,10 @@ import axios from "axios";
 function StudP() {
 
   const [profile, setProfile] = useState({
-      studentName: "",
-      hostelName: "",
+      studentname: "",
+      hostelname: "",
       address: "",
-      emailID: "",
+      email: "",
       phone: "",
     });
 
@@ -16,15 +16,17 @@ function StudP() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/student"); // Replace with your backend URL
+        const response = await axios.get("http://localhost:3000/students"); // Replace with your backend URL
         if (response.data.length > 0) {
-          const studentData = response.data[1];
+          // Assuming the API returns an array of hosts, use the first one for display
+          const loggedInEmail = localStorage.getItem("studemail");
+          const studentData = response.data.find(h => h.email === loggedInEmail);
           setProfile({
             id: studentData._id,
-            studentName: studentData.studentName,
-            hostelName: studentData.hostelName,
+            studentname: studentData.studentname,
+            hostelname: studentData.hostelname,
             address: studentData.address,
-            emailID: studentData.emailID,
+            email: studentData.email,
             phone: studentData.phone,
           });
         }
@@ -46,7 +48,10 @@ function StudP() {
 
   const handleSaveChanges = async () => {
     try {
-      const response = await axios.put("http://localhost:3000/student", profile);
+      const token = localStorage.getItem('token');
+      const response = await axios.put("http://localhost:3000/students", profile, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       console.log("Profile updated successfully:", response.data);
       alert("Profile changes saved successfully!");
       setIsEditing(false); // Disable edit mode after saving
@@ -67,13 +72,13 @@ function StudP() {
                 {isEditing ? (
                 <input
                     type="text"
-                    name="studentName"
-                    value={profile.studentName}
+                    name="studentname"
+                    value={profile.studentname}
                     onChange={handleProfileChange}
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 ) : (
-                <p className="mt-1 text-left block w-full min-h-7 px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.studentName}</p>
+                <p className="mt-1 text-left block w-full min-h-7 px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.studentname}</p>
                 )}
             </div>  
             <div>
@@ -81,13 +86,13 @@ function StudP() {
                 {isEditing ? (
                 <input
                     type="text"
-                    name="hostelName"
-                    value={profile.hostelName}
+                    name="hostelname"
+                    value={profile.hostelname}
                     onChange={handleProfileChange}
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 ) : (
-                <p className="mt-1 text-left block w-full min-h-7 px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.hostelName}</p>
+                <p className="mt-1 text-left block w-full min-h-7 px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.hostelname}</p>
                 )}
             </div> 
             <div>
@@ -109,13 +114,13 @@ function StudP() {
                 {isEditing ? (
                 <input
                     type="text"
-                    name="emailId"
-                    value={profile.emailId}
+                    name="email"
+                    value={profile.email}
                     onChange={handleProfileChange}
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />
                 ) : (
-                <p className="mt-1 text-left block w-full min-h-7 px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.emailID}</p>
+                <p className="mt-1 text-left block w-full min-h-7 px-3 py-2 border bg-white border-black rounded-md shadow-sm">{profile.email}</p>
                 )}
             </div>
             <div>
@@ -123,8 +128,8 @@ function StudP() {
                 {isEditing ? (
                 <input
                     type="text"
-                    name="mobileNumber"
-                    value={profile.mobileNumber}
+                    name="phone"
+                    value={profile.phone}
                     onChange={handleProfileChange}
                     className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                 />

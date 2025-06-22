@@ -1,7 +1,15 @@
 import React from "react";
-
+import { useNavigate } from 'react-router-dom';
 
 function MessGalleryNav(){
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem("token");
+        navigate("/studentLogin");
+    };
+
     return(
         <nav class="bg-purple-800 border-gray-200 dark:bg-white-900 rounded-3xl ">
         <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -19,6 +27,9 @@ function MessGalleryNav(){
             <ul class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-yellow-100 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-purple-800 dark">
                 <li>
                 <a href="/" class="block py-2 px-3 bg-purple-800 rounded md:bg-transparent md:p-0 md:dark:text-yellow-300" aria-current="page">Home</a>
+                </li>
+                <li>
+                <a href="/" class="block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 md:dark:text-yellow-300" aria-current="page" onClick={handleLogout}>Logout</a>
                 </li>
                 <li>
                 <a href="/studentprofile" class="block py-2 px-3  hover:bg-gray-100 md:border-0 md:p-0 dark:text-white md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">Profile</a>

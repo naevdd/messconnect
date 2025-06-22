@@ -18,9 +18,10 @@ export default function Slogin(){
                 .then((response) => {
                     const storedToken = response.data.token;
                     localStorage.setItem('token', storedToken);
+                    localStorage.setItem('studemail',email)
                     setToken(storedToken)
                     alert('Login successful! Token stored.');
-                    navigate('/mess/gallery');
+                    navigate('/mess');
                 })
                 .catch((err) => {
                     console.error('Login failed:', err);

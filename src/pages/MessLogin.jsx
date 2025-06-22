@@ -15,8 +15,8 @@ export default function Mlogin(){
         try {
             const response = await axios.post('http://localhost:3000/host/login', { email, password });
             
-            const recievedToken = response.data.token;
-            localStorage.setItem('token', recievedToken); 
+            const recievedToken = response.data.messtoken;
+            localStorage.setItem('messtoken', recievedToken); 
             localStorage.setItem('email', email);
             localStorage.setItem("hostId", response.data.hostId);
             setToken(recievedToken);

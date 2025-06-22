@@ -60,13 +60,13 @@ function IndMessPage() {
                 {/* Image */}
                 <div className="h-full w-full rounded-xl">
                   <img
-                    src={mess.image} // Default image
+                    src={`http://localhost:3000/uploads/${mess.image}`} // Default image
                     alt={mess.messname || "Mess Name"}
                   />
                 </div>
 
                 {/* Mess Name */}
-                <div className="bg-yellow-300 py-4 text-center text-3xl mt-5 font-semibold rounded-xl">
+                <div className="bg-yellow-300 py-4 text-center text-4xl mt-5 font-semibold rounded-xl">
                   <h1>{mess.messname}</h1>
                 </div>
               </div>
