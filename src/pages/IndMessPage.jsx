@@ -11,7 +11,7 @@ function IndMessPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/indmess/${id}`) // Corrected endpoint 
+      .get(`https://messbackend-8bh5.onrender.com/indmess/${id}`) // Corrected endpoint 
       .then((response) => {
         console.log("Fetched data:", response.data); // Debug
         setMessData(response.data); // Ensure data is an array for mapping
@@ -37,7 +37,7 @@ function IndMessPage() {
     }
 
     try{
-      const response = await axios.post("http://localhost:3000/order", orderDetails);
+      const response = await axios.post("https://messbackend-8bh5.onrender.com/order", orderDetails);
       alert("Order placed");
       console.log("Order details = ",response.data);
     }
@@ -59,7 +59,7 @@ function IndMessPage() {
                 {/* Image */}
                 <div className="h-full w-full rounded-xl">
                   <img
-                    src={`http://localhost:3000/uploads/${mess.image}`} // Default image
+                    src={`https://messbackend-8bh5.onrender.com/uploads/${mess.image}`} // Default image
                     alt={mess.messname || "Mess Name"}
                   />
                 </div>
