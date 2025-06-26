@@ -5,9 +5,6 @@ import HostProfile from './HostProfile'
 import MenuPage from './MenuPage'
 import Orders from './Orders'
 
-
-
-
 const HostPage = () => {
 
   const [token, setToken] = useState('');
@@ -83,7 +80,7 @@ const HostPage = () => {
           </NavLink>
           <button 
         onClick={handleLogout} 
-        className="mt-5 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 transition duration-300">
+        className="mt-5 mx-2 bg-red-500 text-white py-2 rounded hover:bg-red-700 transition duration-300">
         Logout
       </button>
       </div>

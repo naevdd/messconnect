@@ -12,7 +12,6 @@ function IndMessPage() {
   useEffect(() => {
     axios
       .get(`http://localhost:3000/indmess/${id}`) // Corrected endpoint 
-      .get(`http://localhost:3000/indmess/${id}`) // Corrected endpoint 
       .then((response) => {
         console.log("Fetched data:", response.data); // Debug
         setMessData(response.data); // Ensure data is an array for mapping
