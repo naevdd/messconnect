@@ -6,7 +6,7 @@ const MenuPage = () => {
   const [menuDetails, setMenuDetails] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const hostId = localStorage.getItem("hostId");
-  console.log("hos:",hostId)
+  console.log("host:",hostId)
 
   useEffect(() => {
     const fetchMenu = async () => {
