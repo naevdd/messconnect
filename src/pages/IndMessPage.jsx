@@ -34,7 +34,6 @@ function IndMessPage() {
           const loggedInEmail = localStorage.getItem("email");
           const studentData = response.data.find(h => h.email === loggedInEmail);
           setProfile({
-            id: studentData._id,
             studentName: studentData.studentname,
             location: studentData.location,
             phone: studentData.phone
