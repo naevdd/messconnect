@@ -55,22 +55,28 @@ export default function Spage(){
             }
         };
     return (
-        <div className='flex items-center justify-center flex-col'>
-            <h1 className='m-4'>Student registration</h1>
-            <form onSubmit={handleSubmit}>
-                <div className='flex flex-col items-center text-centre m-7 bg-yellow-400 rounded-2xl'>
-                    <h2 className='text-center mt-4'>Student details</h2>
+        <div className='flex items-center justify-center flex-col min-h-screen px-2'>
+            <div className="mt-5 p-2 left-0 right-0 mx-auto w-1/2 flex bg-white border-black border-4 items-center justify-center rounded-3xl
+                ">
+                <p className="font-satoshi font-bold text-black text-center text-lg xs:text-xl sm:text-2xl md:text-3xl">
+                MESS CONNECT
+                </p>
+            </div>
+            <h1 className='mt-16 mb-2 text-xl sm:text-2xl font-bold text-center'>Student registration</h1>
+            <form onSubmit={handleSubmit} className='w-full max-w-lg'>
+                <div className='flex flex-col items-center mt-4  mx-10 sm:m-7 bg-yellow-400 rounded-2xl p-2 sm:p-8'>
+                    <h2 className='text-center  mt-2 sm:mt-4 text-lg sm:text-xl font-semibold'>Student details</h2>
                     <input value = {studentname} onChange={(e) => setStudentname(e.target.value)} type="text" placeholder="Name" className="p-2 w-2/3 m-3 bg-white" />
                     <input value = {hostelname} onChange={(e) => setHostelname(e.target.value)} type="text" placeholder="Hostel name" className="p-2 w-2/3 m-3 bg-white" />
                     <input value = {address} onChange={(e) => setAddress(e.target.value)} type="text" placeholder="Address" className="p-2 w-2/3 m-6 bg-white" />
                 </div>
-                <div className='flex flex-col items-center text-centre m-7 bg-yellow-400 rounded-2xl'>
-                    <h2 className='text-center mt-4'>Contact Details</h2>
+                <div className='flex flex-col items-center mt-4  mx-10 sm:m-7 bg-yellow-400 rounded-2xl p-2 sm:p-8'>
+                    <h2 className='text-center  mt-2 sm:mt-4 text-lg sm:text-xl font-semibold'>Contact Details</h2>
                     <input value = {email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder="Mail ID" className="p-2 w-2/3 m-3 bg-white" />
                     <input value = {phone} onChange={(e) => setPhone(e.target.value)} type="text" placeholder="Mobile number" className="p-2 w-2/3 m-6 bg-white" />
                 </div>
-                <div className='flex flex-col items-center text-centre m-7 bg-yellow-400 rounded-2xl'>
-                    <h2 className='text-center mt-4'>Create password</h2>
+                <div className='flex flex-col items-center mt-4  mx-10 sm:m-7 bg-yellow-400 rounded-2xl p-2 sm:p-8'>
+                    <h2 className='text-center  mt-2 sm:mt-4 text-lg sm:text-xl font-semibold'>Create password</h2>
                     <input value = {password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Enter password" className="p-2 w-2/3 m-3 bg-white" />
                     <input value = {confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Re-enter Password" className="p-2 w-2/3 m-6 bg-white" />
                 </div>
@@ -78,7 +84,7 @@ export default function Spage(){
                     <button type="submit" className='m-6 bg-black text-white p-3 rounded-2xl hover:bg-yellow-400 hover:text-black transition duration-300'>Sign up</button>
                 </div>
             </form>
-            <a className='m-5' href="/studentLogin">Already have an account? Click here to sign in</a>
+            <a className='m-5 text-center text-sm sm:text-base' href="/studentLogin">Already have an account? Click here to sign in</a>
         </div>
         
     )
