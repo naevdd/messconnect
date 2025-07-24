@@ -42,7 +42,7 @@ export default function Mpage() {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/host/register',formData, {
+            const response = await axios.post('https://messbackend-8bh5.onrender.com/host/register',formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

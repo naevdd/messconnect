@@ -79,7 +79,7 @@ const MessGallery = () => {
                         {topItems.map((item) => (
                             <div key={item._id} className="w-80 h-60 rounded-lg shadow-lg flex flex-col">
                                 <div className="h-60">
-                                    <img src={`http://localhost:3000/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-full object-cover" />
+                                    <img src={`https://messbackend-8bh5.onrender.com/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-full object-cover" />
                                 </div>
                                 <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-2 text-center rounded-lg">
                                     <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
@@ -97,7 +97,7 @@ const MessGallery = () => {
                     <div ref={itemsRef} className="mt-10 grid grid-cols-3 gap-4">
                         {items.map((item) => (
                             <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
-                                <img src={`http://localhost:3000/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-40 object-cover rounded-lg mb-4" />
+                                <img src={`https://messbackend-8bh5.onrender.com/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-40 object-cover rounded-lg mb-4" />
                                 <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-2 text-center rounded-lg">
                                     <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
                                     <p>
