@@ -13,7 +13,7 @@ const HostPage = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("messtoken");
-    navigate("/#1");
+    navigate("/");
   };
 
   useEffect(() => {        

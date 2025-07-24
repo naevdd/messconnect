@@ -16,7 +16,7 @@ function StudP() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("https://messbackend-8bh5.onrender.com/students"); // Replace with your backend URL
+        const response = await axios.get("http://localhost:3000/students"); // Replace with your backend URL
         if (response.data.length > 0) {
           // Assuming the API returns an array of hosts, use the first one for display
           const loggedInEmail = localStorage.getItem("studemail");
