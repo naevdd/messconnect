@@ -14,7 +14,7 @@ export default function Slogin(){
         e.preventDefault();
 
         try {
-            axios.post('https://messbackend-8bh5.onrender.com/student/login', { email, password })
+            axios.post('http://localhost:3000/student/login', { email, password })
                 .then((response) => {
                     const storedToken = response.data.token;
                     localStorage.setItem('token', storedToken);

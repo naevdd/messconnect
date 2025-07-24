@@ -26,7 +26,7 @@ const MessGallery = () => {
         const controller = new AbortController();
         const fetchData = async () => {
         try {
-            const response = await axios.get('https://messbackend-8bh5.onrender.com/student/protected', {
+            const response = await axios.get('http://localhost:3000/student/protected', {
             headers: { Authorization: `Bearer ${storedToken}` },
             signal: controller.signal,
             });
@@ -43,7 +43,7 @@ const MessGallery = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("https://messbackend-8bh5.onrender.com/allmesses")
+        axios.get("http://localhost:3000/allmesses")
             .then((response) => {
                 setItems(response.data);
                 console.log("Fetched all items:", response.data);
@@ -54,7 +54,7 @@ const MessGallery = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("https://messbackend-8bh5.onrender.com/top_messes")
+        axios.get("http://localhost:3000/top_messes")
             .then((response) => {
                 setTopItems(response.data);
                 console.log("Fetched top items : ",response.data)
