@@ -5,9 +5,13 @@ import NavBar from "../Components/MessGalleryComp/MessGalleryNav";
 import Reviews from "../Components/MessGalleryComp/Reviews";
 
 function IndMessPage() {
-  const [mess, setMessData] = useState({});
-  const[mealsToday,setMealsToday] = useState([]);
+  const [mess, setMessData] = useState([]);
   const { id } = useParams();
+  const [profile, setProfile] = useState({
+      studentName: "",
+      location: "",
+      phone: ""
+  });
 
   useEffect(() => {
     axios
@@ -15,15 +19,33 @@ function IndMessPage() {
       .then((response) => {
         console.log("Fetched data:", response.data); // Debug
         setMessData(response.data); // Ensure data is an array for mapping
-
-        const today = new Date().toLocaleDateString('en-US', {weekend: 'long'});
-        const todayMenu = response.data.weeklyMenu.find((menu) => menu.day === today);
-        setMealsToday(todayMenu?todayMenu.meals:[]);
       })
       .catch((error) => {
         console.error("Error fetching mess data:", error);
       });
   }, [id]);
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/students"); // Replace with your backend URL
+        if (response.data.length > 0) {
+          // Assuming the API returns an array of hosts, use the first one for display
+          const loggedInEmail = localStorage.getItem("email");
+          const studentData = response.data.find(h => h.email === loggedInEmail);
+          setProfile({
+            studentName: studentData.studentname,
+            location: studentData.location,
+            phone: studentData.phone
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching hosts:", error);
+      }
+    };
+
+    fetchStudents();
+  }, []);
 
   const handleOrderClick = async() => {
     // Handle order click logic here
@@ -31,13 +53,13 @@ function IndMessPage() {
     const orderDetails = {
       orderId:Math.random().toString(36).substring(2, 15),
       messName: mess.messname,
-      customerName:"Trial Name",
-      customerPhone: 9999999999,
-      status:"Pending",
+      customerName: profile.studentName,
+      customerPhone: profile.phone,
+      status:"Pending"
     }
 
     try{
-      const response = await axios.post("http://localhost:3000/order", orderDetails);
+      const response = await axios.post("https://messbackend-8bh5.onrender.com/order", orderDetails);
       alert("Order placed");
       console.log("Order details = ",response.data);
     }
@@ -59,7 +81,7 @@ function IndMessPage() {
                 {/* Image */}
                 <div className="h-full w-full rounded-xl">
                   <img
-                    src={`http://localhost:3000/uploads/${mess.image}`} // Default image
+                    src={`https://messbackend-8bh5.onrender.com/uploads/${mess.image}`} // Default image
                     alt={mess.messname || "Mess Name"}
                   />
                 </div>
@@ -82,15 +104,15 @@ function IndMessPage() {
                       <strong >Locations Served:</strong> {mess.location}
                     </li>
                     <li className="text-2xl">
-                      <strong >Price:</strong> {mess.price}
+                      <strong >Contact:</strong> {mess.phone}
                     </li>
 
                     <li>
                       <strong className="text-2xl">Meals for the day:</strong> {mess.contact}
                       <ul className="list-disc ml-5 mt-2 space-y-1">
-                        <li className="text-l">Breakfast: {mealsToday.breakfast}</li>
-                        <li className="text-l">Lunch: {mealsToday.lunch}</li>
-                        <li className="text-l">Dinner: {mealsToday.dinner}</li>
+                        <li className="text-l">Breakfast: {mess.breakfast}</li>
+                        <li className="text-l">Lunch: {mess.lunch}</li>
+                        <li className="text-l">Dinner: {mess.dinner}</li>
                       </ul>
                     </li>
                   </ul>

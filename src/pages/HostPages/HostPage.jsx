@@ -27,7 +27,7 @@ const HostPage = () => {
     const controller = new AbortController();
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/host/protected', {
+        const response = await axios.get('https://messbackend-8bh5.onrender.com/host/protected', {
           headers: { Authorization: `Bearer ${storedToken}` },
           signal: controller.signal,
         });

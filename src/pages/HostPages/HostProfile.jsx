@@ -19,7 +19,7 @@ const HostProfile = () => {
   useEffect(() => {
     const fetchHosts = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/hosts"); // Replace with your backend URL
+        const response = await axios.get("https://messbackend-8bh5.onrender.com/hosts"); // Replace with your backend URL
         if (response.data.length > 0) {
           // Assuming the API returns an array of hosts, use the first one for display
           const loggedInEmail = localStorage.getItem("email");
@@ -54,7 +54,7 @@ const HostProfile = () => {
   const handleSaveChanges = async () => {
     try {
       const token = localStorage.getItem('messtoken');
-      const response = await axios.put("http://localhost:3000/hosts", profile, {
+      const response = await axios.put("https://messbackend-8bh5.onrender.com/hosts", profile, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log("Profile updated successfully:", response.data);
@@ -82,7 +82,7 @@ const HostProfile = () => {
         <div className="ml-36 flex flex-col my-auto shadow-md rounded-full w-3/12 h-96 bg-white items-center justify-center">
           <div className="border bg-red-400 rounded-full w-64 h-64">
             {/* Profile Image */}
-            <img src={`http://localhost:3000/uploads/${profile.image}`} alt="" />
+            <img src={`https://messbackend-8bh5.onrender.com/uploads/${profile.image}`} alt="" />
           </div>
         </div>
 
