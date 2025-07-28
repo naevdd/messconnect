@@ -30,7 +30,7 @@ export default function Mlogin(){
     };
     
     return(
-        <div className='flex items-center justify-center h-screen flex-col'>
+        <div className='flex items-center p-10 justify-center h-screen flex-col'>
             <div className='flex items-center justify-center flex-col bg-yellow-400 text-center rounded-2xl'>
                 <h1 className='p-3'>Mess Login</h1>
                 <form onSubmit={handleLogin}>

@@ -33,7 +33,7 @@ export default function Slogin(){
         }
     };
     return(
-        <div className='flex items-center justify-center h-screen flex-col'>
+        <div className='flex items-center justify-center h-screen flex-col p-10'>
             <div className='flex items-center justify-center flex-col bg-yellow-400 text-center rounded-2xl'>
                 <h1 className='p-3'>Student Login</h1>
                 <form onSubmit={handleLogin}>
