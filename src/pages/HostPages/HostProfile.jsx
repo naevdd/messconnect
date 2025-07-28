@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const HostProfile = () => {
-  // Profile details state
   const [profile, setProfile] = useState({
     ownerName: "",
     messName: "",
@@ -13,15 +12,13 @@ const HostProfile = () => {
     image: ""
   });
 
-  // State to toggle editable mode
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchHosts = async () => {
       try {
-        const response = await axios.get("https://messbackend-8bh5.onrender.com/hosts"); // Replace with your backend URL
+        const response = await axios.get("http://localhost:3000/hosts");
         if (response.data.length > 0) {
-          // Assuming the API returns an array of hosts, use the first one for display
           const loggedInEmail = localStorage.getItem("email");
           const hostData = response.data.find(h => h.email === loggedInEmail);
           setProfile({
@@ -42,7 +39,7 @@ const HostProfile = () => {
 
     fetchHosts();
   }, []);
-  
+
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
     setProfile((prevProfile) => ({
@@ -54,14 +51,12 @@ const HostProfile = () => {
   const handleSaveChanges = async () => {
     try {
       const token = localStorage.getItem('messtoken');
-      const response = await axios.put("https://messbackend-8bh5.onrender.com/hosts", profile, {
+      const response = await axios.put("http://localhost:3000/hosts", profile, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      console.log("Profile updated successfully:", response.data);
       alert("Profile changes saved successfully!");
-      setIsEditing(false); // Disable edit mode after saving
+      setIsEditing(false);
     } catch (error) {
-      console.error("Error saving profile:", error);
       alert("Failed to save changes. Please try again.");
     }
   };
@@ -69,118 +64,57 @@ const HostProfile = () => {
   return (
     <section>
       {/* Header */}
-      <div className="bg-white fixed z-50 shadow-xl border border-black justify-between flex w-full h-16 text-center">
-        <p className="text-left text-2xl ml-44 my-auto">PROFILE</p>
-        <div className="bg-yellow-500 mr-5 rounded-xl w-12 my-auto h-12">
-          <p className="text-white mt-4 text-xs">Profile</p>
+      <div className="bg-white fixed z-50 shadow-xl border border-black flex w-full h-16 items-center justify-between px-4 sm:pl-30">
+        <p className="text-2xl font-semibold">PROFILE</p>
+        <div className="bg-yellow-500 rounded-xl w-12 h-12 flex items-center justify-center">
+          <span className="text-white text-xs">Profile</span>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex justify-between p-20 flex-row gap-24">
-        {/* Left Section: Profile Image */}
-        <div className="ml-36 flex flex-col my-auto shadow-md rounded-full w-3/12 h-96 bg-white items-center justify-center">
-          <div className="border bg-red-400 rounded-full w-64 h-64">
-            {/* Profile Image */}
-            <img src={`https://messbackend-8bh5.onrender.com/uploads/${profile.image}`} alt="" />
+      <div className="flex flex-col sm:flex-row justify-between px-4 sm:px-36 pt-20 pb-10 sm:pt-30 gap-8 sm:gap-24">
+        {/* Profile Image */}
+        <div className="flex flex-col my-auto mx-auto items-center shadow-md rounded-full w-48 h-48 sm:w-72 sm:h-72 bg-white justify-center">
+          <div className="border bg-red-400 rounded-full w-40 h-40 sm:w-64 sm:h-64 flex items-center justify-center overflow-hidden">
+            <img
+              src={`http://localhost:3000/uploads/${profile.image}`}
+              className="object-cover w-full h-full rounded-full"
+            />
           </div>
         </div>
 
-        {/* Right Section: Editable Fields */}
-        <div className="mr-20 mt-10 shadow-md rounded-xl w-1/2 p-8 h-auto bg-white">
+        {/* Editable Fields */}
+        <div className="shadow-md rounded-xl w-full sm:w-1/2 p-4 sm:p-8 bg-white">
           <h2 className="text-2xl font-semibold mb-4">Host Details</h2>
+          {/*
+            Mapping through an array of field configurations to render
+            labels and inputs/paragraphs for each profile field.
+          */}
+          {[
+            { label: "Owner Name", name: "ownerName", type: "text" },
+            { label: "Mess Name", name: "messName", type: "text" },
+            { label: "Location", name: "location", type: "text" },
+            { label: "Mail ID", name: "mailId", type: "email" },
+            { label: "Mobile Number", name: "mobileNumber", type: "text" },
+            { label: "Working Days", name: "workingDays", type: "text" },
+          ].map(({ label, name, type }) => (
+            <div className="mb-4" key={name}>
+              <label className="block text-left text-sm font-medium text-gray-700">{label}</label>
+              {isEditing ? (
+                <input
+                  type={type}
+                  name={name}
+                  value={profile[name]}
+                  onChange={handleProfileChange}
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                />
+              ) : (
+                <p className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile[name]}</p>
+              )}
+            </div>
+          ))}
 
-          <div className="mb-4">
-            <label className="block text-left text-sm font-medium text-gray-700">Owner Name</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="ownerName"
-                value={profile.ownerName}
-                onChange={handleProfileChange}
-                className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.ownerName}</p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-left text-sm font-medium text-gray-700">Mess Name</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="messName"
-                value={profile.messName}
-                onChange={handleProfileChange}
-                className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.messName}</p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-left text-sm font-medium text-gray-700">Location</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="location"
-                value={profile.location}
-                onChange={handleProfileChange}
-                className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.location}</p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-left text-sm font-medium text-gray-700">Mail ID</label>
-            {isEditing ? (
-              <input
-                type="email"
-                name="mailId"
-                value={profile.mailId}
-                onChange={handleProfileChange}
-                className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.mailId}</p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-left text-sm font-medium text-gray-700">Mobile Number</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="mobileNumber"
-                value={profile.mobileNumber}
-                onChange={handleProfileChange}
-                className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.mobileNumber}</p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-left text-sm font-medium text-gray-700">Working Days</label>
-            {isEditing ? (
-              <input
-                type="text"
-                name="workingDays"
-                value={profile.workingDays}
-                onChange={handleProfileChange}
-                className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
-            ) : (
-              <p className="mt-1 text-left block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile.workingDays}</p>
-            )}
-          </div>
-
-          <div className="flex justify-between">
+          <div className="flex justify-end">
             {isEditing ? (
               <button
                 onClick={handleSaveChanges}

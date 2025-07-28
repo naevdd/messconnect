@@ -13,7 +13,7 @@ export default function Mlogin(){
         e.preventDefault();
     
         try {
-            const response = await axios.post('https://messbackend-8bh5.onrender.com/host/login', { email, password });
+            const response = await axios.post('http://localhost:3000/host/login', { email, password });
             
             const recievedToken = response.data.messtoken;
             localStorage.setItem('messtoken', recievedToken); 
