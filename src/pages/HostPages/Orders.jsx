@@ -10,7 +10,7 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    axios.get("http://localhost:3000/orders")
+    axios.get("https://messbackend-8bh5.onrender.com/orders")
       .then((response) => {
         setOrders(response.data);
       })

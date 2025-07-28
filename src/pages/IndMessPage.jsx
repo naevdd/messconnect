@@ -14,7 +14,7 @@
 
     useEffect(() => {
       axios
-        .get(`http://localhost:3000/indmess/${id}`) // Corrected endpoint 
+        .get(`https://messbackend-8bh5.onrender.com/indmess/${id}`) // Corrected endpoint 
         .then((response) => {
           console.log("Fetched data:", response.data); // Debug
           setMessData(response.data); // Ensure data is an array for mapping
@@ -40,7 +40,7 @@
       }
 
       try{
-        const response = await axios.post("http://localhost:3000/order", orderDetails);
+        const response = await axios.post("https://messbackend-8bh5.onrender.com/order", orderDetails);
         alert("Order placed");
         console.log("Order details = ",response.data);
       }
@@ -62,7 +62,7 @@
                 <div className="flex flex-col md:w-1/2 lg:w-1/2 md:mr-5 lg:mr-5">
                   {/* Image */}
                   <img
-                      src={`http://localhost:3000/uploads/${mess.image}`} // Default image
+                      src={`https://messbackend-8bh5.onrender.com/uploads/${mess.image}`} // Default image
                       alt={mess.messname || "Mess Name"}
                       className="w-full h-full object-cover rounded-xl"
                     />

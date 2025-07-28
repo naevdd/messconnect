@@ -10,7 +10,7 @@ const MenuPage = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/get-menu/${hostId}`);
+        const response = await axios.get(`https://messbackend-8bh5.onrender.com/get-menu/${hostId}`);
         const transformedMenu = response.data.weeklyMenu.reduce((acc, day) => {
           acc[day.day] = {
             Breakfast: day.meals.find((meal) => meal.type === "Breakfast")?.items || [],
@@ -67,7 +67,7 @@ const MenuPage = () => {
 
       const weeklyMenu = [{ day: selectedDay, meals: menu }];
 
-      const response = await axios.put("http://localhost:3000/update-menu", {
+      const response = await axios.put("https://messbackend-8bh5.onrender.com/update-menu", {
         hostId,
         weeklyMenu,
       });
