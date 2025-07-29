@@ -7,12 +7,12 @@ function Reviews() {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const { id } = useParams(); // Get the mess ID from the URL
-
+  const BASE_URI = import.meta.env.VITE_API_URL;
   const handleRatingClick = async (ratingValue) => {
     setRating(ratingValue);
 
     try {
-      const response = await axios.post(`http://localhost:3000/indmess/${id}/rate`, {
+      const response = await axios.post(`${BASE_URI}/indmess/${id}/rate`, {
         rating: ratingValue,
       });
       console.log("Rating submitted:", response.data);
