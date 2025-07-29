@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from "react";
 import axios from "axios";
 
+const BASE_URI = import.meta.env.VITE_API_URL;
+
 function StudP() {
 
   const [profile, setProfile] = useState({
@@ -16,9 +18,8 @@ function StudP() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("https://messbackend-8bh5.onrender.com/students"); // Replace with your backend URL
+        const response = await axios.get(`${BASE_URI}/students`);
         if (response.data.length > 0) {
-          // Assuming the API returns an array of hosts, use the first one for display
           const loggedInEmail = localStorage.getItem("studemail");
           const studentData = response.data.find(h => h.email === loggedInEmail);
           setProfile({
@@ -49,7 +50,7 @@ function StudP() {
   const handleSaveChanges = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.put("https://messbackend-8bh5.onrender.com/students", profile, {
+      const response = await axios.put(`${BASE_URI}/students`, profile, {
         headers: { Authorization: `Bearer ${token}` }
       });
       console.log("Profile updated successfully:", response.data);

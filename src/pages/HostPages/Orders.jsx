@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
+const BASE_URI = import.meta.env.VITE_API_URL;
+
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [activeOrder, setActiveOrder] = useState(null);
@@ -10,7 +12,7 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    axios.get("https://messbackend-8bh5.onrender.com/orders")
+    axios.get(`${BASE_URI}/orders`)
       .then((response) => {
         setOrders(response.data);
       })

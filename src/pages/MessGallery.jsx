@@ -1,10 +1,11 @@
-
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { Link } from "react-router-dom";
 import '../index.css';
 import MessGalleryNav from '../Components/MessGalleryComp/MessGalleryNav';
+
+const BASE_URI = import.meta.env.VITE_API_URL;
 
 const MessGallery = () => {
     const [items, setItems] = useState([]);
@@ -28,17 +29,17 @@ const MessGallery = () => {
         const controller = new AbortController();
 
         const fetchData = async () => {
-        try {
-            const response = await axios.get('https://messbackend-8bh5.onrender.com/student/protected', {
-            headers: { Authorization: `Bearer ${storedToken}` },
-            signal: controller.signal,
-            });
-            setMessage(response.data.message);
-        } catch (err) {
-            if (axios.isCancel(err)) return;
+            try {
+                const response = await axios.get(`${BASE_URI}/student/protected`, {
+                    headers: { Authorization: `Bearer ${storedToken}` },
+                    signal: controller.signal,
+                });
+                setMessage(response.data.message);
+            } catch (err) {
+                if (axios.isCancel(err)) return;
                 console.error("Error fetching protected data:", err);
                 navigate('/');
-        }
+            }
         };
 
         fetchData();
@@ -47,7 +48,7 @@ const MessGallery = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("https://messbackend-8bh5.onrender.com/allmesses")
+        axios.get(`${BASE_URI}/allmesses`)
             .then((response) => {
                 setItems(response.data);
                 console.log("Fetched all items:", response.data);
@@ -58,7 +59,7 @@ const MessGallery = () => {
     }, []);
 
     useEffect(() => {
-        axios.get("https://messbackend-8bh5.onrender.com/top_messes")
+        axios.get(`${BASE_URI}/top_messes`)
             .then((response) => {
                 setTopItems(response.data);
                 console.log("Fetched top items:", response.data);
@@ -87,7 +88,7 @@ const MessGallery = () => {
                         .map((item) => (
                             <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
                                 <div className="h-40 md:h-60 lg:h-60">
-                                    <img src={`https://messbackend-8bh5.onrender.com/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-40 md:h-60 object-cover rounded-t-xl" />
+                                    <img src={`${BASE_URI}/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-40 md:h-60 object-cover rounded-t-xl" />
                                 </div>
                                 <Link to={ `/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-lg">
                                     <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
@@ -105,7 +106,7 @@ const MessGallery = () => {
                     <div ref={itemsRef} className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-10 px-3">
                         {items.map((item) => (
                             <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
-                                <img src={`https://messbackend-8bh5.onrender.com/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-40 md:h-60 object-cover rounded-t-xl" />
+                                <img src={`${BASE_URI}/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-40 md:h-60 object-cover rounded-t-xl" />
 
                                 <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-lg">
                                     <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>

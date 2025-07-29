@@ -11,6 +11,8 @@ const navItems = [
   { to: "profile", label: "Profile" },
 ];
 
+const BASE_URI = import.meta.env.VITE_API_URL;
+
 const HostPage = () => {
   const [token, setToken] = useState('');
   const [message, setMessage] = useState('');
@@ -32,7 +34,7 @@ const HostPage = () => {
     const controller = new AbortController();
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://messbackend-8bh5.onrender.com/host/protected', {
+        const response = await axios.get(`${BASE_URI}/host/protected`, {
           headers: { Authorization: `Bearer ${storedToken}` },
           signal: controller.signal,
         });

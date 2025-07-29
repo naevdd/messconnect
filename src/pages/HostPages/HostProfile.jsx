@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const BASE_URI = import.meta.env.VITE_API_URL;
+
 const HostProfile = () => {
   const [profile, setProfile] = useState({
     ownerName: "",
@@ -17,7 +19,7 @@ const HostProfile = () => {
   useEffect(() => {
     const fetchHosts = async () => {
       try {
-        const response = await axios.get("https://messbackend-8bh5.onrender.com/hosts");
+        const response = await axios.get(`${BASE_URI}/hosts`);
         if (response.data.length > 0) {
           const loggedInEmail = localStorage.getItem("email");
           const hostData = response.data.find(h => h.email === loggedInEmail);
@@ -51,7 +53,7 @@ const HostProfile = () => {
   const handleSaveChanges = async () => {
     try {
       const token = localStorage.getItem('messtoken');
-      const response = await axios.put("https://messbackend-8bh5.onrender.com/hosts", profile, {
+      const response = await axios.put(`${BASE_URI}/hosts`, profile, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert("Profile changes saved successfully!");

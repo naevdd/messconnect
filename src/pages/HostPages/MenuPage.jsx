@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const BASE_URI = import.meta.env.VITE_API_URL;
+
 const MenuPage = () => {
   const [selectedDay, setSelectedDay] = useState("Monday");
   const [menuDetails, setMenuDetails] = useState({});
@@ -10,7 +12,7 @@ const MenuPage = () => {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get(`https://messbackend-8bh5.onrender.com/get-menu/${hostId}`);
+        const response = await axios.get(`${BASE_URI}/get-menu/${hostId}`);
         const transformedMenu = response.data.weeklyMenu.reduce((acc, day) => {
           acc[day.day] = {
             Breakfast: day.meals.find((meal) => meal.type === "Breakfast")?.items || [],
@@ -67,7 +69,7 @@ const MenuPage = () => {
 
       const weeklyMenu = [{ day: selectedDay, meals: menu }];
 
-      const response = await axios.put("https://messbackend-8bh5.onrender.com/update-menu", {
+      const response = await axios.put(`${BASE_URI}/update-menu`, {
         hostId,
         weeklyMenu,
       });
