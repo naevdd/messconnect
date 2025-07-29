@@ -30,7 +30,7 @@ const Orders = () => {
       </div>
 
       {/* Responsive layout */}
-      <div className="flex flex-col sm:flex-row justify-between px-4 pb-10 sm:px-36 pt-20 sm:pt-30 gap-8 sm:gap-24">
+      <div className="flex flex-col sm:flex-row justify-between px-4 pb-20 sm:px-36 pt-20 sm:pt-30 gap-8 sm:gap-24">
         {/* Orders list */}
         <div className="shadow-md rounded-xl w-full sm:w-1/3 bg-white">
           <div className="bg-white rounded-xl w-full h-20 flex items-center justify-center font-semibold text-lg">

@@ -72,7 +72,7 @@ const HostProfile = () => {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col sm:flex-row justify-between px-4 sm:px-36 pt-20 pb-10 sm:pt-30 gap-8 sm:gap-24">
+      <div className="flex flex-col sm:flex-row justify-between px-4 sm:px-36 pt-20 pb-20 sm:pt-30 gap-8 sm:gap-24">
         {/* Profile Image */}
         <div className="flex flex-col my-auto mx-auto items-center shadow-md rounded-full w-48 h-48 sm:w-72 sm:h-72 bg-white justify-center">
           <div className="border bg-red-400 rounded-full w-40 h-40 sm:w-64 sm:h-64 flex items-center justify-center overflow-hidden">
