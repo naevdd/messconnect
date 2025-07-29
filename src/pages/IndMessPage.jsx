@@ -13,7 +13,7 @@ function IndMessPage() {
   const [mess, setMessData] = useState({});
   const [mealsToday, setMealsToday] = useState({});
   const { id } = useParams();
-
+  const [profile, setProfile] = useState([])
   useEffect(() => {
     axios
       .get(`${BASE_URI}/indmess/${id}`)
@@ -31,13 +31,40 @@ function IndMessPage() {
       });
   }, [id]);
 
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/students"); // Replace with your backend URL
+        if (response.data.length > 0) {
+          // Assuming the API returns an array of hosts, use the first one for display
+          const loggedInEmail = localStorage.getItem("studemail");
+          const studentData = response.data.find(h => h.email === loggedInEmail);
+          setProfile({
+            id: studentData._id,
+            studentname: studentData.studentname,
+            studentemail: loggedInEmail,
+            hostelname: studentData.hostelname,
+            address: studentData.address,
+            phone: studentData.phone,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching students:", error);
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
   const handleOrderClick = async () => {
+
     console.log("Order button clicked for mess:", mess.messname);
     const orderDetails = {
       orderId: Math.random().toString(36).substring(2, 15),
-      messName: mess.messname,
-      customerName: "Trial Name",
-      customerPhone: 9999999999,
+      messemail: mess.email,
+      customerName: profile.studentname,
+      customerEmail: profile.studentemail,
+      customerPhone: profile.phone,
       status: "Pending",
     };
 
