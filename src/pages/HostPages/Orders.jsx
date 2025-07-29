@@ -6,13 +6,20 @@ const BASE_URI = import.meta.env.VITE_API_URL;
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [activeOrder, setActiveOrder] = useState(null);
+  const loggedInMessEmail = localStorage.getItem("email");
+
+
+  if (!loggedInMessEmail) {
+    console.error("Mess email not found in localStorage.");
+    return;
+  }
 
   const handleOrderClick = (order) => {
     setActiveOrder(order);
   };
 
   useEffect(() => {
-    axios.get(`${BASE_URI}/orders`)
+    axios.get(`${BASE_URI}/orders`,{ params: { messemail: loggedInMessEmail } })
       .then((response) => {
         setOrders(response.data);
       })
@@ -20,6 +27,25 @@ const Orders = () => {
         console.error("Error in fetching data ", error);
       });
   }, []);
+
+  const handleMarkCompleted = async (orderId) => {
+    try {
+      // Send DELETE request to the backend
+      await axios.delete(`${BASE_URI}/orders/${orderId}`);
+
+      // Update the UI by removing the order from the list
+      setOrders(orders.filter(order => order._id !== orderId));
+      
+      // Clear the active order view
+      setActiveOrder(null); 
+      
+      alert('Order marked as completed!');
+
+    } catch (error) {
+      console.error("Error marking order as completed:", error);
+      alert('Failed to update order.');
+    }
+  };
 
   return (
     <section>
@@ -64,6 +90,12 @@ const Orders = () => {
               <p className="mt-4 text-lg">Name: {activeOrder.customerName}</p>
               <p className="mt-2 text-lg">Phone: {activeOrder.customerPhone}</p>
               <p className="mt-2 text-lg">Status: {activeOrder.status}</p>
+              <button
+                onClick={() => handleMarkCompleted(activeOrder._id)}
+                className="mt-6 bg-green-400 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition-colors"
+              >
+                Mark as Completed
+              </button>
             </>
           ) : (
             <p className="text-center text-gray-500">Select an order to view details</p>
