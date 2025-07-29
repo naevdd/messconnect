@@ -77,7 +77,7 @@ const HostPage = () => {
       </nav>
       {/* Topbar for mobile */}
       <nav className="bg-white shadow-xl
-        fixed top-0 left-0 w-full h-16 flex-row gap-2 items-center justify-between
+        fixed bottom-0 left-0 w-full h-16 flex-row gap-2 items-center justify-between
         sm:hidden flex z-20">
         <div className="flex flex-row -ml-1 gap-3 w-full justify-center items-center">
           {navItems.map(({ to, label }) => (
