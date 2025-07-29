@@ -6,13 +6,11 @@ const MenuPage = () => {
   const [menuDetails, setMenuDetails] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const hostId = localStorage.getItem("hostId");
-  console.log("host:",hostId)
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
         const response = await axios.get(`https://messbackend-8bh5.onrender.com/get-menu/${hostId}`);
-        console.log("Fetched menu data:", response.data);
         const transformedMenu = response.data.weeklyMenu.reduce((acc, day) => {
           acc[day.day] = {
             Breakfast: day.meals.find((meal) => meal.type === "Breakfast")?.items || [],
@@ -21,7 +19,6 @@ const MenuPage = () => {
           };
           return acc;
         }, {});
-        console.log("Transformed menu data:", transformedMenu);
         setMenuDetails(transformedMenu);
       } catch (error) {
         console.error("Error fetching menu:", error);
@@ -67,16 +64,14 @@ const MenuPage = () => {
         { type: "Lunch", items: menuDetails[selectedDay]?.Lunch || [] },
         { type: "Dinner", items: menuDetails[selectedDay]?.Dinner || [] },
       ];
-  
+
       const weeklyMenu = [{ day: selectedDay, meals: menu }];
-  
-      console.log("Sending to backend:", { hostId, weeklyMenu });
-  
+
       const response = await axios.put("https://messbackend-8bh5.onrender.com/update-menu", {
         hostId,
         weeklyMenu,
       });
-  
+
       alert(response.data.message || "Changes saved successfully!");
       setIsEditing(false);
     } catch (error) {
@@ -84,24 +79,26 @@ const MenuPage = () => {
       alert("Failed to save changes.");
     }
   };
-  
 
   return (
     <section>
-      <div className="bg-white fixed z-50 shadow-xl border border-black justify-between flex w-full h-16 text-center">
-        <p className="text-left text-2xl ml-44 my-auto">MENU</p>
-        <div className="bg-yellow-500 mr-5 rounded-xl w-12 my-auto h-12">
-          <p className="text-white mt-4 text-xs">Profile</p>
+      {/* Header */}
+      <div className="bg-white fixed z-50 shadow-xl border border-black flex w-full h-16 items-center justify-between px-4 sm:pl-30">
+        <p className="text-2xl font-semibold">MENU</p>
+        <div className="bg-yellow-500 rounded-xl w-12 h-12 flex items-center justify-center">
+          <span className="text-white text-xs">Profile</span>
         </div>
       </div>
 
-      <div className="flex justify-between p-20 flex-row gap-24">
-        <div className="ml-20 mt-10 shadow-md rounded-xl w-1/3 bg-white">
-          <ul className="flex flex-col p-4">
+      {/* Responsive layout */}
+      <div className="flex flex-col sm:flex-row justify-between px-4 sm:px-36 pt-20 sm:pt-30 gap-8 sm:gap-24">
+        {/* Days sidebar */}
+        <div className="shadow-md rounded-xl w-full sm:w-1/3 bg-white">
+          <ul className="flex sm:flex-col flex-row p-2 sm:p-4 overflow-x-auto sm:overflow-visible">
             {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
               <li
                 key={day}
-                className={`p-8 cursor-pointer ${selectedDay === day ? "bg-gray-300" : "bg-white"}`}
+                className={`p-4 sm:p-8 cursor-pointer whitespace-nowrap ${selectedDay === day ? "bg-gray-300" : "bg-white"}`}
                 onClick={() => handleDayClick(day)}
               >
                 {day}
@@ -110,11 +107,12 @@ const MenuPage = () => {
           </ul>
         </div>
 
-        <div className="mr-20 mt-10 shadow-md rounded-xl w-1/2 p-8 h-auto bg-white">
-          <h2 className="text-2xl font-semibold mb-10">{selectedDay} Menu</h2>
+        {/* Menu details */}
+        <div className="shadow-md rounded-xl w-full sm:w-1/2 p-4 sm:p-8 h-auto bg-white">
+          <h2 className="text-2xl font-semibold mb-6 sm:mb-10">{selectedDay} Menu</h2>
 
           {["Breakfast", "Lunch", "Dinner"].map((meal) => (
-            <div key={meal} className="mb-10">
+            <div key={meal} className="mb-6 sm:mb-10">
               <label className="block text-sm mb-2 font-medium text-gray-700">{meal}</label>
               {isEditing ? (
                 <>

@@ -115,8 +115,7 @@ function IndMessPage() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
-export default IndMessPage;
+  export default IndMessPage;
