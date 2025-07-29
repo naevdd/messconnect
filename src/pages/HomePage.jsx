@@ -4,7 +4,6 @@ const HomePage = () => (
   <div className="scroll-smooth">
     {/* Hero Section */}
     <section className="flex flex-col sm:min-h-[60vh] md:flex-row items-center justify-between max-w-6xl mx-auto px-6 py-12">
-      {/* Text Content */
       <div className="md:w-1/2 text-center md:text-left space-y-6">
         <h1 className="text-4xl md:text-6xl font-extrabold text-gray-800">
           MESS <span className="text-yellow-400">CONNECT</span>
@@ -32,6 +31,7 @@ const HomePage = () => (
           className="rounded-lg shadow-lg"
         />
       </div>
+    </section>
 
     {/* Features Grid */}
     <section className="py-16 px-6 bg-gray-50">
@@ -62,4 +62,4 @@ const HomePage = () => (
   </div>
 );
 
-export default HomePage;
+export default HomePage;
