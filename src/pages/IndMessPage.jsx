@@ -34,7 +34,7 @@ function IndMessPage() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/students"); // Replace with your backend URL
+        const response = await axios.get(`${BASE_URI}/students`); // Replace with your backend URL
         if (response.data.length > 0) {
           // Assuming the API returns an array of hosts, use the first one for display
           const loggedInEmail = localStorage.getItem("studemail");
@@ -70,7 +70,7 @@ function IndMessPage() {
 
     try {
       const response = await axios.post(`${BASE_URI}/order`, orderDetails);
-      alert("Order placed");
+      alert("Order placed. Order ID: " + response.data.orderId);
       console.log("Order details = ", response.data);
     } catch (error) {
       console.error("Error placing order:", error);
