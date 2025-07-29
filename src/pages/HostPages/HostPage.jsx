@@ -102,7 +102,7 @@ const HostPage = () => {
       </nav>
       {/* Main content */}
       <div
-        className="bg-gray-300 text-center pt-16 sm:pt-0"
+        className="bg-gray-300 text-center pt-0"
         style={{ minHeight: '100vh' }}
       >
           <Routes>
