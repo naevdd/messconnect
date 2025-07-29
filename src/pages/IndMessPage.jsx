@@ -132,11 +132,13 @@ function IndMessPage() {
             <div className="mt-1 flex flex-col items-center justify-center gap-2">
               <Reviews />
               <button
-                className="bg-red-600 text-white px-6 py-2 rounded-full text-3xl hover:bg-red-700"
+                className="bg-red-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-full text-3xl hover:bg-red-700"
                 onClick={handleOrderClick}
+                disabled={!mess.email || !profile.studentname}
               >
                 Order
               </button>
+              
             </div>
           </div>
         </div>
