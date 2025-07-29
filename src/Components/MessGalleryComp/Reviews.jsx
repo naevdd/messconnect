@@ -12,7 +12,7 @@ function Reviews() {
     setRating(ratingValue);
 
     try {
-      const response = await axios.post(`https://messbackend-8bh5.onrender.com/indmess/${id}/rate`, {
+      const response = await axios.post(`http://localhost:3000/indmess/${id}/rate`, {
         rating: ratingValue,
       });
       console.log("Rating submitted:", response.data);
