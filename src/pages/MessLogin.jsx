@@ -43,13 +43,5 @@ export default function Mlogin() {
             </div> 
             <a className='mt-5' href="/host/messRegistration">Don't have an account? Click here to sign up</a>
         </div>
-        <a
-          className="mt-6 text-center"
-          href="/host/messRegistration"
-        >
-          Don't have an account? Click here to sign up
-        </a>
-      </div>
-    </div> 
   );
 }
