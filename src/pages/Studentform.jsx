@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import '../App.css'
 
+const BASE_URI = import.meta.env.VITE_API_URL;
+
 export default function Spage(){
     const navigate = useNavigate();
     
@@ -28,7 +30,7 @@ export default function Spage(){
             }
     
             try {
-                const response = await axios.post('http://localhost:3000/student/register', {
+                const response = await axios.post(`${BASE_URI}/student/register`, {
                     studentname,
                     hostelname,
                     address,

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../App.css';
 
+const BASE_URI = import.meta.env.VITE_API_URL;
+
 export default function Mpage() {
     const navigate = useNavigate();
 
@@ -42,7 +44,7 @@ export default function Mpage() {
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/host/register',formData, {
+            const response = await axios.post(`${BASE_URI}/host/register`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

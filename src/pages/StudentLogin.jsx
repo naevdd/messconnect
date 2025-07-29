@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../App.css'
 import { useNavigate } from 'react-router-dom'
 
+const BASE_URI = import.meta.env.VITE_API_URL;
 
 export default function Slogin(){
     const navigate = useNavigate();
@@ -14,24 +15,25 @@ export default function Slogin(){
         e.preventDefault();
 
         try {
-            axios.post('http://localhost:3000/student/login', { email, password })
+            axios.post(`${BASE_URI}/student/login`, { email, password })
                 .then((response) => {
                     const storedToken = response.data.token;
                     localStorage.setItem('token', storedToken);
-                    localStorage.setItem('studemail',email)
-                    setToken(storedToken)
+                    localStorage.setItem('studemail', email);
+                    setToken(storedToken);
                     alert('Login successful! Token stored.');
                     navigate('/mess');
                 })
                 .catch((err) => {
                     console.error('Login failed:', err);
-                    alert("Invalid credentials.")
+                    alert("Invalid credentials.");
                 });
         } catch (err) {
-            console.error(err.response.data.error);
+            console.error(err.response?.data?.error || err.message);
             alert('Invalid credentials');
         }
     };
+
     return(
         <div>
             <div className="z-10 fixed mt-5 p-2 left-0 right-0 mx-auto w-1/2 flex bg-white border-black border-4 items-center justify-center rounded-3xl

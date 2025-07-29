@@ -7,6 +7,8 @@ import axios from "axios";
 import NavBar from "../Components/MessGalleryComp/MessGalleryNav";
 import Reviews from "../Components/MessGalleryComp/Reviews";
 
+const BASE_URI = import.meta.env.VITE_API_URL;
+
 function IndMessPage() {
   const [mess, setMessData] = useState({});
   const [mealsToday, setMealsToday] = useState({});
@@ -14,15 +16,12 @@ function IndMessPage() {
   const [profile, setProfile] = useState([])
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/indmess/${id}`) // ✅ Backticks added
+      .get(`${BASE_URI}/indmess/${id}`)
       .then((response) => {
         console.log("Fetched data:", response.data);
         setMessData(response.data);
 
-        // ✅ Fixing day detection
         const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-
-        // ✅ Check for matching day in menu
         const todayMenu = response.data.weeklyMenu?.find((menu) => menu.day === today);
 
         setMealsToday(todayMenu ? todayMenu.meals : {});
@@ -70,7 +69,7 @@ function IndMessPage() {
     };
 
     try {
-      const response = await axios.post("http://localhost:3000/order", orderDetails);
+      const response = await axios.post(`${BASE_URI}/order`, orderDetails);
       alert("Order placed");
       console.log("Order details = ", response.data);
     } catch (error) {
@@ -88,7 +87,7 @@ function IndMessPage() {
           <div className="flex flex-col md:w-1/2 lg:w-1/2 md:mr-5 lg:mr-5">
             {/* Image */}
             <img
-              src={`http://localhost:3000/uploads/${mess.image}`} // ✅ Backticks added
+              src={`${BASE_URI}/uploads/${mess.image}`}
               alt={mess.messname || "Mess Name"}
               className="w-full h-full object-cover rounded-xl"
             />
