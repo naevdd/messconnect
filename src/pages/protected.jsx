@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+const BASE_URI = import.meta.env.VITE_API_URL;
 
 const ProtectedPage = () => {
   const [message, setMessage] = useState('');
@@ -24,7 +25,7 @@ const ProtectedPage = () => {
     const controller = new AbortController();
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/host/protected', {
+        const response = await axios.get(`${BASE_URI}/host/protected`, {
           headers: { Authorization: `Bearer ${storedToken}` },
           signal: controller.signal,
         });

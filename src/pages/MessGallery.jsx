@@ -101,15 +101,6 @@ const MessGallery = () => {
                                         </p>
                                     </Link>
                                 </div>
-                                <Link to={ `/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-lg">
-                                    <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
-                                    <p>
-                                        Rating:{" "}
-                                        {item.review_total > 0
-                                            ? (item.review_sum / item.review_total).toFixed(1)
-                                            : "N/A"}
-                                    </p>
-                                </Link>
                             </div>
                         ))}
                     </div>
