@@ -11,7 +11,6 @@ const BASE_URI = import.meta.env.VITE_API_URL;
 
 function IndMessPage() {
   const [mess, setMessData] = useState({});
-  const [mealsToday, setMealsToday] = useState({});
   const { id } = useParams();
   const [profile, setProfile] = useState([])
   useEffect(() => {
@@ -20,11 +19,6 @@ function IndMessPage() {
       .then((response) => {
         console.log("Fetched data:", response.data);
         setMessData(response.data);
-
-        const today = new Date().toLocaleDateString('en-US', { weekday: 'long' });
-        const todayMenu = response.data.weeklyMenu?.find((menu) => menu.day === today);
-
-        setMealsToday(todayMenu ? todayMenu.meals : {});
       })
       .catch((error) => {
         console.error("Error fetching mess data:", error);
@@ -58,7 +52,7 @@ function IndMessPage() {
 
   const handleOrderClick = async () => {
 
-    console.log("Order button clicked for mess:", mess.messname);
+    console.log("Order button clicked for mess:", mess.messname, mess);
     const orderDetails = {
       orderId: Math.random().toString(36).substring(2, 15),
       messemail: mess.email,
@@ -122,9 +116,9 @@ function IndMessPage() {
                     <strong className="text-2xl">Meals for the day: </strong>
                   </div>
                   <ul className="list-disc ml-5 mt-2 space-y-1">
-                    <li className="text-l">Breakfast: {mealsToday.breakfast || "Not Available"}</li>
-                    <li className="text-l">Lunch: {mealsToday.lunch || "Not Available"}</li>
-                    <li className="text-l">Dinner: {mealsToday.dinner || "Not Available"}</li>
+                    <li className="text-l">Breakfast: {mess.breakfast || "Not Available"}</li>
+                    <li className="text-l">Lunch: {mess.lunch || "Not Available"}</li>
+                    <li className="text-l">Dinner: {mess.dinner || "Not Available"}</li>
                   </ul>
                 </li>
               </ul>
@@ -134,7 +128,7 @@ function IndMessPage() {
               <button
                 className="bg-red-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-full text-3xl hover:bg-red-700"
                 onClick={handleOrderClick}
-                disabled={!mess.email || !profile.studentname}
+
               >
                 Order
               </button>
