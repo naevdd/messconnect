@@ -16,15 +16,17 @@ const MessGallery = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    useEffect(() => {        
+    useEffect(() => {
         const storedToken = localStorage.getItem('token');
         setToken(storedToken);
+
         if (!storedToken) {
-        navigate('/');
-        return;
+            navigate('/');
+            return;
         }
 
         const controller = new AbortController();
+
         const fetchData = async () => {
         try {
             const response = await axios.get('https://messbackend-8bh5.onrender.com/student/protected', {
@@ -34,7 +36,8 @@ const MessGallery = () => {
             setMessage(response.data.message);
         } catch (err) {
             if (axios.isCancel(err)) return;
-            nav
+                console.error("Error fetching protected data:", err);
+                navigate('/');
         }
         };
 
@@ -50,7 +53,7 @@ const MessGallery = () => {
                 console.log("Fetched all items:", response.data);
             })
             .catch((error) => {
-                console.error("Error in fetching data ", error);
+                console.error("Error in fetching data", error);
             });
     }, []);
 
@@ -58,10 +61,10 @@ const MessGallery = () => {
         axios.get("https://messbackend-8bh5.onrender.com/top_messes")
             .then((response) => {
                 setTopItems(response.data);
-                console.log("Fetched top items : ",response.data)
+                console.log("Fetched top items:", response.data);
             })
             .catch((error) => {
-                console.error(error);
+                console.error("Error fetching top items:", error);
             });
     }, []);
 
@@ -103,6 +106,7 @@ const MessGallery = () => {
                         {items.map((item) => (
                             <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
                                 <img src={`https://messbackend-8bh5.onrender.com/uploads/${item.image}`} alt={item.messname || "Mess Name"} className="w-full h-40 md:h-60 object-cover rounded-t-xl" />
+
                                 <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-lg">
                                     <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
                                     <p>
@@ -116,8 +120,12 @@ const MessGallery = () => {
                         ))}
                     </div>
                 )}
+
                 <div className="p-4 mt-10 flex w-full">
-                    <button className="px-20 py-5 mx-auto bg-yellow-300 text-black font-bold rounded-xl hover:bg-yellow-400 focus:outline-none text-3xl" onClick={handleClick}>
+                    <button
+                        className="px-20 py-5 mx-auto bg-yellow-300 text-black font-bold rounded-xl hover:bg-yellow-400 focus:outline-none text-3xl"
+                        onClick={handleClick}
+                    >
                         {showAll ? "Show Favourites" : "View All"}
                     </button>
                 </div>

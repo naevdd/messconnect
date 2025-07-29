@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import '../App.css'
-import { useNavigate } from 'react-router-dom'
+import '../App.css';
+import { useNavigate } from 'react-router-dom';
 
-export default function Mlogin(){
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [token, setToken] = useState('');
+export default function Mlogin() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -43,5 +43,13 @@ export default function Mlogin(){
             </div> 
             <a className='mt-5' href="/host/messRegistration">Don't have an account? Click here to sign up</a>
         </div>
-    )
+        <a
+          className="mt-6 text-center"
+          href="/host/messRegistration"
+        >
+          Don't have an account? Click here to sign up
+        </a>
+      </div>
+    </div> 
+  );
 }
