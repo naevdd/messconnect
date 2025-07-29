@@ -43,7 +43,7 @@ function IndMessPage() {
 
     try {
       const response = await axios.post(`${BASE_URI}/order`, orderDetails);
-      alert("Order placed");
+      alert("Order placed. Order ID: " + response.data.orderId);
       console.log("Order details = ", response.data);
     } catch (error) {
       console.error("Error placing order:", error);
