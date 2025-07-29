@@ -24,15 +24,15 @@ function MessGalleryNav(){
                 </svg>
             </button>
             <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-            <ul class="font-medium flex flex-col p-4 md:p-2 mt-4 border border-yellow-100 rounded-3xl md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark">
+            <ul class="font-medium flex flex-col p-4 md:p-2 mt-4 border border-yellow-100 rounded-3xl md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark">
                 <li>
-                <a href="/" class="block py-2 px-3 bg-purple-800 rounded md:bg-transparent md:p-0 md:dark:text-yellow-500" aria-current="page">Home</a>
+                <a href="/" class="block py-2 px-3 bg-purple-800 rounded md:bg-transparent md:p-0 md:dark:text-white" aria-current="page">Home</a>
+                </li>
+                <li>
+                <a href="/studentprofile" class="block py-2 px-3  hover:bg-gray-100 md:border-0 md:p-0 dark:text-white md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">Profile</a>
                 </li>
                 <li>
                 <a href="/" class="block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 md:dark:text-red-600" aria-current="page" onClick={handleLogout}>Logout</a>
-                </li>
-                <li>
-                <a href="/studentprofile" class="block py-2 px-3  hover:bg-gray-100 md:border-0 md:p-0 dark:text-yellow-500 md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">Profile</a>
                 </li>
             </ul>
             </div>

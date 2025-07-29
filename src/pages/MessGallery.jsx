@@ -82,11 +82,7 @@ const MessGallery = () => {
 
                 {!showAll ? (
                     <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-10 px-3">
-                        {[...topItems]
-                            .filter(item => item.review_total > 0)
-                            .sort((a, b) => (b.review_sum / b.review_total) - (a.review_sum / a.review_total))
-                            .slice(0, 4)
-                            .map((item) => (
+                        {topItems.map((item) => (
                                 <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
                                     <div className="h-40 md:h-60 lg:h-60">
                                         <img
@@ -95,7 +91,7 @@ const MessGallery = () => {
                                             className="w-full h-40 md:h-60 object-cover rounded-t-xl"
                                         />
                                     </div>
-                                    <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-lg">
+                                    <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-b-xl">
                                         <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
                                         <p>
                                             Rating:{" "}
@@ -116,7 +112,7 @@ const MessGallery = () => {
                                     alt={item.messname || "Mess Name"}
                                     className="w-full h-40 md:h-60 object-cover rounded-t-xl"
                                 />
-                                <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-lg">
+                                <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-b-xl">
                                     <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
                                     <p>
                                         Rating:{" "}

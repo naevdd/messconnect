@@ -28,7 +28,7 @@ export default function Spage(){
             }
     
             try {
-                const response = await axios.post('https://messbackend-8bh5.onrender.com/student/register', {
+                const response = await axios.post('http://localhost:3000/student/register', {
                     studentname,
                     hostelname,
                     address,
