@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from "react";
 import axios from "axios";
+import MessGalleryNav from "../Components/MessGalleryComp/MessGalleryNav";
 
 const BASE_URI = import.meta.env.VITE_API_URL;
 
@@ -64,10 +65,12 @@ function StudP() {
 
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-yellow-300 p-8 rounded-2xl shadow-lg w-full max-w-md min-w-xl">
-        <h1 className="text-4xl font-bold mb-10 text-center">Profile</h1>
-        <div className="space-y-8 text-xl">
+    <div className="m-2 sm:m-4 md:mx-10 lg:mx-40">
+    <MessGalleryNav />
+    <div className="min-h-screen flex items-center justify-center pt-3 sm:pt-5">
+      <div className="bg-yellow-400 p-4 sm:p-6 md:p-8 rounded-2xl shadow-lg w-full max-w-xs sm:max-w-md md:max-w-lg lg:max-w-xl">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-10 text-center">Profile</h1>
+        <div className="space-y-6 sm:space-y-8 text-base sm:text-lg md:text-xl">
             <div>
                 <p><span className="font-semibold">Name:</span> </p>
                 {isEditing ? (
@@ -155,6 +158,7 @@ function StudP() {
             
         </div>
       </div>
+    </div>
     </div>
   );
 }
