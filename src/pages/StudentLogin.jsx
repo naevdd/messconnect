@@ -20,6 +20,7 @@ export default function Slogin(){
                     const storedToken = response.data.token;
                     localStorage.setItem('token', storedToken);
                     localStorage.setItem('studemail', email);
+                    //localStorage.setItem("studentId", studentId);
                     setToken(storedToken);
                     alert('Login successful! Token stored.');
                     navigate('/mess');
