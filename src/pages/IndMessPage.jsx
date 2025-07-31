@@ -12,12 +12,11 @@ const BASE_URI = import.meta.env.VITE_API_URL;
 function IndMessPage() {
   const [mess, setMessData] = useState({});
   const { id } = useParams();
-  const [profile, setProfile] = useState([])
+  const [profile, setProfile] = useState([]);
   useEffect(() => {
     axios
       .get(`${BASE_URI}/indmess/${id}`)
       .then((response) => {
-        console.log("Fetched data:", response.data);
         setMessData(response.data);
       })
       .catch((error) => {
@@ -28,11 +27,10 @@ function IndMessPage() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const response = await axios.get(`${BASE_URI}/students`); // Replace with your backend URL
+        const response = await axios.get(`${BASE_URI}/students`);
         if (response.data.length > 0) {
-          // Assuming the API returns an array of hosts, use the first one for display
           const loggedInEmail = localStorage.getItem("studemail");
-          const studentData = response.data.find(h => h.email === loggedInEmail);
+          const studentData = response.data.find((h) => h.email === loggedInEmail);
           setProfile({
             id: studentData._id,
             studentname: studentData.studentname,
@@ -46,13 +44,10 @@ function IndMessPage() {
         console.error("Error fetching students:", error);
       }
     };
-
     fetchStudents();
   }, []);
 
   const handleOrderClick = async () => {
-
-    console.log("Order button clicked for mess:", mess.messname, mess);
     const orderDetails = {
       orderId: Math.random().toString(36).substring(2, 15),
       messemail: mess.email,
@@ -65,7 +60,6 @@ function IndMessPage() {
     try {
       const response = await axios.post(`${BASE_URI}/order`, orderDetails);
       alert("Order placed. Order ID: " + response.data.orderId);
-      console.log("Order details = ", response.data);
     } catch (error) {
       console.error("Error placing order:", error);
       alert("Failed to place order. Please try again.");
@@ -73,72 +67,77 @@ function IndMessPage() {
   };
 
   return (
-    <div className="lg:m-10 md:10 lg:mx-40 md:mx-40 m-4">
+    <div className="min-h-screen bg-gray-50">
       <NavBar />
-      <div className="mt-12">
-        <div className="flex flex-col md:flex-row lg:flex-row rounded-xl md:max-h-max lg:max-h-max md:overflow-hidden lg:overflow-hidden gap-10">
-          {/* Left Section: Image and Mess Name */}
-          <div className="flex flex-col md:w-1/2 lg:w-1/2 md:mr-5 lg:mr-5">
-            {/* Image */}
-            <img
-              src={`${BASE_URI}/uploads/${mess.image}`}
-              alt={mess.messname || "Mess Name"}
-              className="w-full h-full object-cover rounded-xl"
-            />
-            {/* Mess Name */}
-            <div className="bg-yellow-300 py-4 text-center text-4xl mt-5 font-semibold rounded-xl">
-              <h1>{mess.messname}</h1>
+      <main className="max-w-5xl mx-auto px-4 py-10">
+        <div className="bg-white rounded-2xl shadow border border-gray-100 flex flex-col md:flex-row gap-0 md:gap-8 p-0 md:p-8">
+          {/* Left Section */}
+          <div className="flex flex-col md:w-1/2">
+            <div className="relative rounded-2xl overflow-hidden shadow-sm">
+              <img
+                src={mess.image ? `${BASE_URI}/uploads/${mess.image}` : "https://placehold.co/600x400?text=No+Image"}
+                alt={mess.messname || "Mess Name"}
+                className="w-full h-64 md:h-96 object-cover"
+              />
+              <div className="absolute bottom-0 left-0 right-0 bg-white/80 px-6 py-3 border-t border-gray-100">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-800">{mess.messname}</h1>
+              </div>
+            </div>
+            <div className="mt-6 flex flex-col gap-4 bg-gray-50 rounded-xl shadow-sm p-4 border border-gray-100">
+              <div className="flex items-center gap-2 text-base text-gray-700">
+                <FaLocationDot className="text-yellow-500" />
+                <span className="font-semibold">Location:</span>
+                <span>{mess.location}</span>
+              </div>
+              <div className="flex items-center gap-2 text-base text-gray-700">
+                <FaRegClock className="text-yellow-500" />
+                <span className="font-semibold">Timings:</span>
+                <span>{mess.time}</span>
+              </div>
+              <div className="flex items-center gap-2 text-base text-gray-700">
+                <IoPricetagsOutline className="text-yellow-500" />
+                <span className="font-semibold">Price:</span>
+                <span>₹{mess.price}</span>
+              </div>
             </div>
           </div>
-
-          {/* Right Section: Details */}
-          <div className="flex flex-col w-full md:w-1/2 rounded-xl">
-            <div className="p-5 rounded-3xl">
-              <h2 className="text-4xl font-bold text-center mb-8">Details</h2>
-              <ul className="space-y-7 text-left">
-                <li className="text-2xl flex items-center">
-                  <FaRegClock className="inline-block mr-2 text-2xl" />
-                  <strong>Timings:</strong> {mess.time}
-                </li>
-                <li className="text-2xl flex items-center">
-                  <FaLocationDot className="inline-block mr-2 text-2xl" />
-                  <span>Locations Served: </span>
-                  <span className="font-medium">{mess.location}</span>
-                </li>
-                <li className="text-2xl flex items-center">
-                  <IoPricetagsOutline className="inline-block mr-2 text-2xl" />
-                  <strong>Price: </strong> {mess.price}
-                </li>
-
+          {/* Right Section */}
+          <div className="flex flex-col md:w-1/2 justify-between">
+            <div className="bg-gray-50 rounded-xl shadow-sm p-6 mb-6 mt-6 md:mt-0 border border-gray-100">
+              <h2 className="text-xl font-bold text-yellow-700 mb-4 flex items-center gap-2">
+                <FaBowlFood className="text-yellow-500" /> Meals for the Day
+              </h2>
+              <ul className="space-y-3 text-base">
                 <li>
-                  <div className="flex items-center">
-                    <FaBowlFood className="inline-block mr-2 text-2xl" />
-                    <strong className="text-2xl">Meals for the day: </strong>
-                  </div>
-                  <ul className="list-disc ml-5 mt-2 space-y-1">
-                    <li className="text-l">Breakfast: {mess.breakfast || "Not Available"}</li>
-                    <li className="text-l">Lunch: {mess.lunch || "Not Available"}</li>
-                    <li className="text-l">Dinner: {mess.dinner || "Not Available"}</li>
-                  </ul>
+                  <span className="font-semibold text-yellow-600">Breakfast:</span>{" "}
+                  <span>{mess.breakfast || <span className="italic text-gray-400">Not Available</span>}</span>
+                </li>
+                <li>
+                  <span className="font-semibold text-yellow-600">Lunch:</span>{" "}
+                  <span>{mess.lunch || <span className="italic text-gray-400">Not Available</span>}</span>
+                </li>
+                <li>
+                  <span className="font-semibold text-yellow-600">Dinner:</span>{" "}
+                  <span>{mess.dinner || <span className="italic text-gray-400">Not Available</span>}</span>
                 </li>
               </ul>
             </div>
-            <div className="mt-1 flex flex-col items-center justify-center gap-2">
-              <Reviews />
+            <div className="flex flex-col items-center gap-4">
+              <div className="w-full">
+                <Reviews />
+              </div>
               <button
-                className="bg-red-600 disabled:bg-gray-400 text-white px-6 py-2 rounded-full text-3xl hover:bg-red-700"
+                className="w-full md:w-auto bg-yellow-400 hover:bg-yellow-500 text-black text-lg font-semibold px-8 py-3 rounded-full shadow transition"
                 onClick={handleOrderClick}
-
               >
-                Order
+                Order Now
               </button>
-              
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
-    );
-  }
+  );
+}
 
-  export default IndMessPage;
+export default IndMessPage;
