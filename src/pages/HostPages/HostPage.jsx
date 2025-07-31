@@ -53,16 +53,16 @@ const HostPage = () => {
   return (
     <section className="bg-gray-400 min-h-screen">
       {/* Sidebar for desktop, topbar for mobile */}
-      <nav className="bg-white shadow-xl
-        fixed left-0 top-0 h-screen w-20 flex-col gap-10 text-center
+      <nav className="
+        fixed left-0 top-0 h-screen ml-5 w-20 flex-col gap-10 text-center
         sm:flex hidden z-20">
-        <div className="flex flex-col gap-10 mt-24">
+        <div className="bg-white border border-gray-200 rounded-2xl shadow flex flex-col gap-8 mt-10 py-8 px-2 h-[85vh] items-center">
           {navItems.map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
-                `rounded-xl mx-auto w-14 h-14 flex items-center justify-center
+                `rounded-xl shadow shadow-gray-500 mx-auto w-14 h-12 flex items-center justify-center
                 ${isActive ? 'bg-orange-500' : 'bg-yellow-500'}`
               }
             >
@@ -71,7 +71,7 @@ const HostPage = () => {
           ))}
           <button
             onClick={handleLogout}
-            className="mt-5 mx-2 bg-red-500 text-white py-2 rounded hover:bg-red-700 transition duration-300"
+            className="mt-5 mx-2 shadow shadow-gray-500 bg-red-500 text-sm text-white py-2 px-1 rounded hover:bg-red-700 transition duration-300"
           >
             Logout
           </button>
@@ -81,13 +81,13 @@ const HostPage = () => {
       <nav className="bg-white shadow-xl
         fixed bottom-0 left-0 w-full h-16 flex-row gap-2 items-center justify-between
         sm:hidden flex z-20">
-        <div className="flex flex-row -ml-1 gap-3 w-full justify-center items-center">
+        <div className="bg-white border border-gray-200 rounded-t-2xl shadow flex flex-row gap-2 w-full justify-center items-center py-2">
           {navItems.map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}
               className={({ isActive }) =>
-                `rounded-xl w-16 h-10 flex items-center justify-center mx-1
+                `rounded-xl w-16 shadow shadow-gray-500 h-10 flex items-center justify-center mx-1
                 ${isActive ? 'bg-orange-500' : 'bg-yellow-500'}`
               }
             >
@@ -96,7 +96,7 @@ const HostPage = () => {
           ))}
           <button
             onClick={handleLogout}
-            className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300 ml-2"
+            className="bg-red-500 shadow shadow-gray-500 text-white px-3 py-1 rounded hover:bg-red-700 transition duration-300 ml-2"
           >
             Logout
           </button>

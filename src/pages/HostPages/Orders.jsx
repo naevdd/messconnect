@@ -8,10 +8,9 @@ const Orders = () => {
   const [activeOrder, setActiveOrder] = useState(null);
   const loggedInMessEmail = localStorage.getItem("email");
 
-
   if (!loggedInMessEmail) {
     console.error("Mess email not found in localStorage.");
-    return;
+    return null;
   }
 
   const handleOrderClick = (order) => {
@@ -19,7 +18,7 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    axios.get(`${BASE_URI}/orders`,{ params: { messemail: loggedInMessEmail } })
+    axios.get(`${BASE_URI}/orders`, { params: { messemail: loggedInMessEmail } })
       .then((response) => {
         setOrders(response.data);
       })
@@ -30,17 +29,10 @@ const Orders = () => {
 
   const handleMarkCompleted = async (orderId) => {
     try {
-      // Send DELETE request to the backend
       await axios.delete(`${BASE_URI}/orders/${orderId}`);
-
-      // Update the UI by removing the order from the list
       setOrders(orders.filter(order => order._id !== orderId));
-      
-      // Clear the active order view
-      setActiveOrder(null); 
-      
+      setActiveOrder(null);
       alert('Order marked as completed!');
-
     } catch (error) {
       console.error("Error marking order as completed:", error);
       alert('Failed to update order.');
@@ -48,61 +40,72 @@ const Orders = () => {
   };
 
   return (
-    <section>
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white fixed z-50 shadow-xl border border-black flex w-full h-16 items-center justify-between px-4 sm:pl-30">
-        <p className="text-2xl font-semibold">MANAGE ORDERS</p>
-        <div className="bg-yellow-500 rounded-xl w-12 h-12 flex items-center justify-center">
-          <span className="text-white text-xs">Profile</span>
-        </div>
-      </div>
-
-      {/* Responsive layout */}
-      <div className="flex flex-col sm:flex-row justify-between px-4 pb-20 sm:px-36 pt-20 sm:pt-30 gap-8 sm:gap-24">
-        {/* Orders list */}
-        <div className="shadow-md rounded-xl w-full sm:w-1/3 bg-white">
-          <div className="bg-white rounded-xl w-full h-20 flex items-center justify-center font-semibold text-lg">
-            Orders List
-          </div>
-          <div className="overflow-y-auto h-[40vh] sm:h-[65vh]">
-            {orders.map((order) => (
-              <div
-                key={order._id}
-                className={`p-2 w-full cursor-pointer transition-colors ${
-                  activeOrder?._id === order._id ? "bg-gray-300" : "bg-white"
-                }`}
-                onClick={() => handleOrderClick(order)}
-              >
-                <h1 className="text-center font-bold">Order {order._id}</h1>
-                <p className="text-left p-1">{order.customerName}</p>
-                <p className="text-left p-1">{order.customerPhone}</p>
-                <p className="text-left p-1">{order.status}</p>
-              </div>
-            ))}
+      <header className="w-full px-2 sm:px-6 pt-6 pb-3 bg-transparent">
+        <div className="max-w-5xl mx-auto bg-white border border-gray-200 rounded-2xl shadow flex items-center justify-between px-4 py-3">
+          <p className="text-2xl font-bold text-yellow-500">Manage Orders</p>
+          <div className="bg-yellow-500 rounded-xl w-12 h-12 flex items-center justify-center">
+            <span className="text-white text-xs">Profile</span>
           </div>
         </div>
+      </header>
 
-        {/* Order details */}
-        <div className="shadow-md rounded-xl w-full sm:w-1/2 p-4 sm:p-8 bg-white">
-          {activeOrder ? (
-            <>
-              <h2 className="text-xl font-semibold">Order {activeOrder._id} Details</h2>
-              <p className="mt-4 text-lg">Name: {activeOrder.customerName}</p>
-              <p className="mt-2 text-lg">Phone: {activeOrder.customerPhone}</p>
-              <p className="mt-2 text-lg">Status: {activeOrder.status}</p>
-              <button
-                onClick={() => handleMarkCompleted(activeOrder._id)}
-                className="mt-6 bg-green-400 text-white font-bold py-2 px-4 rounded hover:bg-green-600 transition-colors"
-              >
-                Mark as Completed
-              </button>
-            </>
-          ) : (
-            <p className="text-center text-gray-500">Select an order to view details</p>
-          )}
+      {/* Main Content */}
+      <main className="max-w-5xl mx-auto px-4 py-10">
+        <div className="flex flex-col sm:flex-row pb-24 gap-8">
+          {/* Orders list */}
+          <div className="bg-white rounded-2xl shadow border border-gray-100 w-full sm:w-1/3 flex flex-col">
+            <div className="rounded-t-2xl w-full h-16 flex items-center justify-center font-semibold text-lg border-b border-gray-100">
+              Orders List
+            </div>
+            <div className="overflow-y-auto h-[40vh] sm:h-[65vh]">
+              {orders.length === 0 ? (
+                <div className="text-center text-gray-400 py-8">No orders found.</div>
+              ) : (
+                orders.map((order) => (
+                  <div
+                    key={order._id}
+                    className={`p-3 w-full cursor-pointer border-b border-gray-50 transition-colors ${
+                      activeOrder?._id === order._id ? "bg-yellow-100" : "bg-white hover:bg-gray-50"
+                    }`}
+                    onClick={() => handleOrderClick(order)}
+                  >
+                    <h1 className="font-bold text-base truncate">Order {order._id}</h1>
+                    <p className="text-sm text-gray-700">{order.customerName}</p>
+                    <p className="text-xs text-gray-500">{order.customerPhone}</p>
+                    <p className="text-xs text-gray-500">{order.status}</p>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Order details */}
+          <div className="bg-white rounded-2xl shadow border border-gray-100 w-full sm:w-2/3 p-6 flex flex-col justify-center">
+            {activeOrder ? (
+              <>
+                <h2 className="text-xl font-semibold mb-4">Order Details</h2>
+                <div className="space-y-2">
+                  <p><span className="font-semibold">Order ID:</span> {activeOrder._id}</p>
+                  <p><span className="font-semibold">Name:</span> {activeOrder.customerName}</p>
+                  <p><span className="font-semibold">Phone:</span> {activeOrder.customerPhone}</p>
+                  <p><span className="font-semibold">Status:</span> {activeOrder.status}</p>
+                </div>
+                <button
+                  onClick={() => handleMarkCompleted(activeOrder._id)}
+                  className="mt-6 bg-green-500 text-white font-semibold py-2 px-6 rounded-full hover:bg-green-600 transition"
+                >
+                  Mark as Completed
+                </button>
+              </>
+            ) : (
+              <div className="text-center text-gray-400 my-8">Select an order to view details</div>
+            )}
+          </div>
         </div>
-      </div>
-    </section>
+      </main>
+    </div>
   );
 };
 

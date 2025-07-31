@@ -15,15 +15,15 @@ function MessGalleryNav() {
     };
 
     return (
-        <nav className="bg-yellow-400 border-gray-200 dark:bg-white-900 rounded-3xl">
-            <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3">
-                <a href="https://flowbite.com/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" />
-                    <span className="text-2xl font-satoshi font-bold text-white">MESS CONNECT</span>
+        <nav className="w-full px-2 sm:px-6 pt-4 pb-2 bg-transparent">
+            <div className="max-w-6xl mx-auto bg-white border border-gray-200 rounded-2xl shadow-md flex flex-wrap items-center justify-between px-4 py-3">
+                <a href="/" className="flex items-center space-x-3">
+                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Logo" />
+                    <span className="text-2xl font-bold text-yellow-500">MESS CONNECT</span>
                 </a>
                 <button
                     type="button"
-                    className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-200"
                     aria-controls="navbar-default"
                     aria-expanded={menuOpen}
                     onClick={toggleMenu}
@@ -35,18 +35,22 @@ function MessGalleryNav() {
                 </button>
                 <div
                     id="navbar-default"
-                    className={`overflow-hidden transition-all duration-500 ease-in-out w-full md:block md:w-auto ${menuOpen ? 'max-h-96' : 'max-h-0'} md:max-h-full`}
-                    style={{}}
+                    className={`overflow-hidden transition-all duration-300 ease-in-out w-full md:block md:w-auto ${menuOpen ? 'max-h-96' : 'max-h-0'} md:max-h-full`}
                 >
-                    <ul className="font-medium flex flex-col p-4 md:p-2 mt-4 border border-yellow-100 rounded-3xl md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 dark">
+                    <ul className="font-medium flex flex-col md:flex-row md:space-x-8 mt-4 md:mt-0">
                         <li>
-                            <a href="/" className="block py-2 px-3 rounded md:bg-transparent md:p-0 text-white" aria-current="page">Home</a>
+                            <a href="/" className="block py-2 px-3 rounded md:bg-transparent md:p-0 text-gray-700 hover:text-yellow-500 transition" aria-current="page">Home</a>
                         </li>
                         <li>
-                            <a href="/studentprofile" className="block py-2 px-3 hover:bg-gray-100 md:border-0 md:p-0 dark:text-white md:dark:hover:text-orange-400 md:dark:hover:bg-transparent">Profile</a>
+                            <a href="/studentprofile" className="block py-2 px-3 rounded md:bg-transparent md:p-0 text-gray-700 hover:text-yellow-500 transition">Profile</a>
                         </li>
                         <li>
-                            <a href="/" className="block py-2 px-3 rounded md:bg-transparent md:p-0 text-red-500" aria-current="page" onClick={handleLogout}>Logout</a>
+                            <button
+                                className="block py-2 px-3 rounded md:bg-transparent md:p-0 text-red-500 hover:text-red-700 transition"
+                                onClick={handleLogout}
+                            >
+                                Logout
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -54,4 +58,5 @@ function MessGalleryNav() {
         </nav>
     );
 }
+
 export default MessGalleryNav;
