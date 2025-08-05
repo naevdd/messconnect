@@ -53,7 +53,7 @@ const HostProfile = () => {
   const handleSaveChanges = async () => {
     try {
       const token = localStorage.getItem('messtoken');
-      const response = await axios.put(`${BASE_URI}/hosts`, profile, {
+      await axios.put(`${BASE_URI}/hosts`, profile, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert("Profile changes saved successfully!");
@@ -64,30 +64,21 @@ const HostProfile = () => {
   };
 
   return (
-    <section>
-      {/* Header */}
-      <div className="bg-white fixed z-50 shadow-xl border border-black flex w-full h-16 items-center justify-between px-4 sm:pl-30">
-        <p className="text-2xl font-semibold">PROFILE</p>
-        <div className="bg-yellow-500 rounded-xl w-12 h-12 flex items-center justify-center">
-          <span className="text-white text-xs">Profile</span>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="flex flex-col sm:flex-row justify-between px-4 sm:px-36 pt-20 pb-20 sm:pt-30 gap-8 sm:gap-24">
+    <div className="min-h-screen bg-gray-50 pb-24 py-10 px-2">
+      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow border border-gray-100 flex flex-col md:flex-row gap-10 p-6 md:p-5">
         {/* Profile Image */}
-        <div className="flex flex-col my-auto mx-auto items-center shadow-md rounded-full w-48 h-48 sm:w-72 sm:h-72 bg-white justify-center">
-          <div className="border bg-red-400 rounded-full w-40 h-40 sm:w-64 sm:h-64 flex items-center justify-center overflow-hidden">
+        <div className="flex flex-col items-center justify-center w-full md:w-1/3">
+          <div className="border bg-yellow-400 rounded-full w-40 h-40 md:w-56 md:h-56 flex items-center justify-center overflow-hidden shadow">
             <img
-              src={`http://localhost:3000/uploads/${profile.image}`}
+              src={profile.image ? `${BASE_URI}/uploads/${profile.image}` : "https://placehold.co/300x300?text=No+Image"}
               className="object-cover w-full h-full rounded-full"
             />
           </div>
         </div>
 
         {/* Editable Fields */}
-        <div className="shadow-md rounded-xl w-full sm:w-1/2 p-4 sm:p-8 bg-white">
-          <h2 className="text-2xl font-semibold mb-4">Host Details</h2>
+        <div className="w-full md:w-2/3">
+          <h2 className="text-2xl font-semibold mb-6 text-yellow-500">Host Details</h2>
           {/*
             Mapping through an array of field configurations to render
             labels and inputs/paragraphs for each profile field.
@@ -108,10 +99,10 @@ const HostProfile = () => {
                   name={name}
                   value={profile[name]}
                   onChange={handleProfileChange}
-                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400"
                 />
               ) : (
-                <p className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">{profile[name]}</p>
+                <p className="mt-1 block w-full px-3 py-2 border border-gray-200 rounded-md shadow-sm bg-gray-50">{profile[name]}</p>
               )}
             </div>
           ))}
@@ -120,14 +111,14 @@ const HostProfile = () => {
             {isEditing ? (
               <button
                 onClick={handleSaveChanges}
-                className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                className="mt-4 bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 transition"
               >
                 Save Changes
               </button>
             ) : (
               <button
                 onClick={() => setIsEditing(true)}
-                className="mt-4 bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600"
+                className="mt-4 bg-yellow-400 text-black py-2 px-6 rounded-full hover:bg-yellow-500 transition font-semibold"
               >
                 Edit Profile
               </button>
@@ -135,7 +126,7 @@ const HostProfile = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

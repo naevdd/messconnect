@@ -54,8 +54,8 @@ const MenuPage = () => {
       ...prevDetails,
       [selectedDay]: {
         ...prevDetails[selectedDay],
-        [meal]: [...(prevDetails[selectedDay]?.[meal] || []), ""],
-      },
+        [meal]: [...(prevDetails[selectedDay]?.[meal] || []), ""]
+      }
     }));
   };
 
@@ -83,83 +83,90 @@ const MenuPage = () => {
   };
 
   return (
-    <section>
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white fixed z-50 shadow-xl border border-black flex w-full h-16 items-center justify-between px-4 sm:pl-30">
-        <p className="text-2xl font-semibold">MENU</p>
-        <div className="bg-yellow-500 rounded-xl w-12 h-12 flex items-center justify-center">
-          <span className="text-white text-xs">Profile</span>
-        </div>
-      </div>
-
-      {/* Responsive layout */}
-      <div className="flex flex-col sm:flex-row justify-between px-4 pb-20 sm:px-36 pt-20 sm:pt-30 gap-8 sm:gap-24">
-        {/* Days sidebar */}
-        <div className="shadow-md rounded-xl w-full sm:w-1/3 bg-white">
-          <ul className="flex sm:flex-col flex-row p-2 sm:p-4 overflow-x-auto sm:overflow-visible">
-            {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
-              <li
-                key={day}
-                className={`p-4 sm:p-8 cursor-pointer whitespace-nowrap ${selectedDay === day ? "bg-gray-300" : "bg-white"}`}
-                onClick={() => handleDayClick(day)}
-              >
-                {day}
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        {/* Menu details */}
-        <div className="shadow-md rounded-xl w-full sm:w-1/2 p-4 sm:p-8 h-auto bg-white">
-          <h2 className="text-2xl font-semibold mb-6 sm:mb-10">{selectedDay} Menu</h2>
-
-          {["Breakfast", "Lunch", "Dinner"].map((meal) => (
-            <div key={meal} className="mb-6 sm:mb-10">
-              <label className="block text-sm mb-2 font-medium text-gray-700">{meal}</label>
-              {isEditing ? (
-                <>
-                  {(menuDetails[selectedDay]?.[meal] || [""]).map((item, index) => (
-                    <input
-                      key={index}
-                      type="text"
-                      value={item}
-                      onChange={(e) => handleMealChange(meal, index, e.target.value)}
-                      className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                    />
-                  ))}
-                  <button
-                    onClick={() => addMealItem(meal)}
-                    className="mt-2 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600"
-                  >
-                    Add Item
-                  </button>
-                </>
-              ) : (
-                <p>{(menuDetails[selectedDay]?.[meal] || []).join(", ") || "No data"}</p>
-              )}
-            </div>
-          ))}
-
-          <div className="flex justify-between">
-            {isEditing ? (
-              <button
-                onClick={handleSaveChanges}
-                className="mt-4 mx-auto bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-              >
-                Save Changes
-              </button>
-            ) : (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="mt-4 mx-auto bg-yellow-500 text-white py-2 px-4 rounded-md hover:bg-yellow-600"
-              >
-                Edit Menu
-              </button>
-            )}
+      <header className="w-full px-2 sm:px-6 pt-6 pb-3 bg-transparent">
+        <div className="max-w-5xl mx-auto bg-white border border-gray-200 rounded-2xl shadow flex items-center justify-between px-4 py-3">
+          <p className="text-2xl font-bold text-yellow-500">MENU</p>
+          <div className="bg-yellow-500 rounded-xl w-12 h-12 flex items-center justify-center">
+            <span className="text-white text-xs">Profile</span>
           </div>
         </div>
-      </div>
-    </section>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-5xl mx-auto pb-24 px-4 py-10">
+        <div className="bg-white rounded-2xl shadow border border-gray-100 flex flex-col md:flex-row gap-0 md:gap-8 p-0 md:p-8">
+          {/* Days sidebar */}
+          <div className="w-full md:w-1/3 border-r border-gray-100">
+            <ul className="flex md:flex-col flex-row p-2 md:p-4 overflow-x-auto md:overflow-visible gap-2 md:gap-0">
+              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"].map((day) => (
+                <li
+                  key={day}
+                  className={`p-3 md:p-4 cursor-pointer rounded-lg text-center font-medium transition ${
+                    selectedDay === day
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-gray-50 text-gray-700 hover:bg-yellow-50"
+                  }`}
+                  onClick={() => handleDayClick(day)}
+                >
+                  {day}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Menu details */}
+          <div className="w-full md:w-2/3 p-4 md:p-8">
+            <h2 className="text-2xl font-semibold mb-8">{selectedDay} Menu</h2>
+            {["Breakfast", "Lunch", "Dinner"].map((meal) => (
+              <div key={meal} className="mb-8">
+                <label className="block text-base mb-2 font-medium text-gray-700">{meal}</label>
+                {isEditing ? (
+                  <>
+                    {(menuDetails[selectedDay]?.[meal] || [""]).map((item, index) => (
+                      <input
+                        key={index}
+                        type="text"
+                        value={item}
+                        onChange={(e) => handleMealChange(meal, index, e.target.value)}
+                        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-yellow-400 focus:border-yellow-400 mb-2"
+                      />
+                    ))}
+                    <button
+                      onClick={() => addMealItem(meal)}
+                      className="mt-2 bg-green-500 text-white py-1 px-3 rounded-md hover:bg-green-600"
+                    >
+                      Add Item
+                    </button>
+                  </>
+                ) : (
+                  <p className="text-gray-600">{(menuDetails[selectedDay]?.[meal] || []).join(", ") || <span className="italic text-gray-400">No data</span>}</p>
+                )}
+              </div>
+            ))}
+
+            <div className="flex justify-end">
+              {isEditing ? (
+                <button
+                  onClick={handleSaveChanges}
+                  className="mt-4 bg-blue-500 text-white py-2 px-6 rounded-full hover:bg-blue-600 transition"
+                >
+                  Save Changes
+                </button>
+              ) : (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="mt-4 bg-yellow-400 text-black py-2 px-6 rounded-full hover:bg-yellow-500 transition font-semibold"
+                >
+                  Edit Menu
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 };
 

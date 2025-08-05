@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { Link } from "react-router-dom";
-import '../index.css';
 import MessGalleryNav from '../Components/MessGalleryComp/MessGalleryNav';
 
 const BASE_URI = import.meta.env.VITE_API_URL;
@@ -11,130 +10,83 @@ const MessGallery = () => {
     const [items, setItems] = useState([]);
     const [topItems, setTopItems] = useState([]);
     const [showAll, setShowAll] = useState(false);
-    const itemsRef = useRef(null);
-
-    const [token, setToken] = useState('');
-    const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
-        setToken(storedToken);
-
         if (!storedToken) {
             navigate('/');
             return;
         }
-
-        const controller = new AbortController();
-
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${BASE_URI}/student/protected`, {
-                    headers: { Authorization: `Bearer ${storedToken}` },
-                    signal: controller.signal,
-                });
-                setMessage(response.data.message);
-            } catch (err) {
-                if (axios.isCancel(err)) return;
-                console.error("Error fetching protected data:", err);
-                navigate('/');
-            }
-        };
-
-        fetchData();
-
-        return () => controller.abort();
+        // Auth check (optional, can be removed if not needed)
+        axios.get(`${BASE_URI}/student/protected`, {
+            headers: { Authorization: `Bearer ${storedToken}` }
+        }).catch(() => navigate('/'));
     }, []);
 
     useEffect(() => {
         axios.get(`${BASE_URI}/allmesses`)
-            .then((response) => {
-                setItems(response.data);
-                console.log("Fetched all items:", response.data);
-            })
-            .catch((error) => {
-                console.error("Error in fetching data", error);
-            });
+            .then((response) => setItems(response.data))
+            .catch((error) => console.error("Error in fetching data", error));
     }, []);
 
     useEffect(() => {
         axios.get(`${BASE_URI}/top_messes`)
-            .then((response) => {
-                setTopItems(response.data);
-                console.log("Fetched top items:", response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching top items:", error);
-            });
+            .then((response) => setTopItems(response.data))
+            .catch((error) => console.error("Error fetching top items:", error));
     }, []);
 
-    const handleClick = () => {
-        setShowAll(!showAll);
-        console.log("Show items toggled:", !showAll);
-    };
+    const handleClick = () => setShowAll(!showAll);
+
+    const MessCard = ({ item }) => (
+        <div className="rounded-xl shadow bg-white border border-gray-100 hover:shadow-lg transition-all duration-200 flex flex-col overflow-hidden">
+            <div className="relative h-44 md:h-56 w-full">
+                <img
+                    src={`${BASE_URI}/uploads/${item.image}`}
+                    alt={item.messname || "Mess Name"}
+                    className="w-full h-full object-cover rounded-t-xl"
+                />
+                <div className="absolute top-2 right-2 bg-yellow-400 text-white text-xs px-3 py-1 rounded-full shadow font-semibold">
+                    {item.review_total > 0
+                        ? `⭐ ${(item.review_sum / item.review_total).toFixed(1)}`
+                        : "No Rating"}
+                </div>
+            </div>
+            <Link
+                to={`/indmess/${item._id}`}
+                className="flex flex-col items-center justify-center flex-1 px-4 py-4 bg-gray-50 rounded-b-xl"
+            >
+                <h1 className="font-bold text-lg text-gray-800 mb-1 truncate w-full">{item.messname || "Unnamed Mess"}</h1>
+                <p className="text-gray-500 text-sm">{item.location || "Location not set"}</p>
+            </Link>
+        </div>
+    );
 
     return (
-        <div className="lg:px-40 md:px-20 px-2 lg:py-10 py-5">
+        <div className="min-h-screen bg-gray-50">
             <MessGalleryNav />
-            <div>
-                <h1 className='mb-5 py-9 md:py-18 lg:py-18 text-left text-4xl ml-4'>{showAll ? "All Messes" : "Favourites"}</h1>
-                {!showAll ? (
-                    <div className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-10 px-3">
-                        {topItems.map((item) => (
-                            <div>
-                                <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
-                                    <div className="h-40 md:h-60 lg:h-60">
-                                        <img
-                                            src={`${BASE_URI}/uploads/${item.image}`}
-                                            alt={item.messname || "Mess Name"}
-                                            className="w-full h-40 md:h-60 object-cover rounded-t-xl"
-                                        />
-                                    </div>
-                                    <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-b-xl">
-                                        <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
-                                        <p>
-                                            Rating:{" "}
-                                            {item.review_total > 0
-                                                ? (item.review_sum / item.review_total).toFixed(1)
-                                                : "N/A"}
-                                        </p>
-                                    </Link>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div ref={itemsRef} className="grid lg:grid-cols-3 md:grid-cols-3 grid-cols-1 gap-10 px-3">
-                        {items.map((item) => (
-                            <div key={item._id} className="border rounded-xl shadow-sm hover:bg-gray-100 text-center">
-                                <img
-                                    src={`${BASE_URI}/uploads/${item.image}`}
-                                    alt={item.messname || "Mess Name"}
-                                    className="w-full h-40 md:h-60 object-cover rounded-t-xl"
-                                />
-                                <Link to={`/indmess/${item._id}`} className="flex flex-row text-lg justify-between bg-yellow-300 p-1 text-center rounded-b-xl">
-                                    <h1 className="font-semibold">{item.messname || "Unnamed Mess"}</h1>
-                                    <p>
-                                        Rating:{" "}
-                                        {item.review_total > 0
-                                            ? (item.review_sum / item.review_total).toFixed(1)
-                                            : "N/A"}
-                                    </p>
-                                </Link>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
-                <div className="p-4 mt-10 flex w-full">
+            <div className="max-w-6xl mx-auto px-4 py-10">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 gap-4">
+                    <h1 className="text-3xl md:text-4xl font-extrabold text-gray-800">
+                        {showAll ? "All Messes" : "Favourites"}
+                    </h1>
                     <button
-                        className="px-20 py-5 mx-auto bg-yellow-300 text-black font-bold rounded-xl hover:bg-yellow-400 focus:outline-none text-3xl"
+                        className="px-7 py-2 bg-yellow-400 hover:bg-yellow-500 text-black font-semibold rounded-full shadow transition text-base md:text-lg"
                         onClick={handleClick}
                     >
                         {showAll ? "Show Favourites" : "View All"}
                     </button>
                 </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {(showAll ? items : topItems).map((item) => (
+                        <MessCard key={item._id} item={item} />
+                    ))}
+                </div>
+                {(showAll ? items : topItems).length === 0 && (
+                    <div className="text-center text-gray-500 text-lg mt-16">
+                        No messes found.
+                    </div>
+                )}
             </div>
         </div>
     );
