@@ -74,6 +74,7 @@ const Orders = () => {
                     <h1 className="font-bold text-base truncate">Order {order._id}</h1>
                     <p className="text-sm text-gray-700">{order.customerName}</p>
                     <p className="text-xs text-gray-500">{order.customerPhone}</p>
+                    <p className="text-xs text-gray-500">{order.orderCount}</p>
                     <p className="text-xs text-gray-500">{order.status}</p>
                   </div>
                 ))

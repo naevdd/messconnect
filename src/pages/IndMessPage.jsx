@@ -13,6 +13,8 @@ function IndMessPage() {
   const [mess, setMessData] = useState({});
   const { id } = useParams();
   const [profile, setProfile] = useState([]);
+  const [orderCount, setOrderCount] = useState(1);
+
   useEffect(() => {
     axios
       .get(`${BASE_URI}/indmess/${id}`)
@@ -47,6 +49,11 @@ function IndMessPage() {
     fetchStudents();
   }, []);
 
+  const handleOrderCountChange = (e) => {
+    const value = e.target.value.replace(/\D/, ""); // Remove non-digits
+    setOrderCount(value === "" ? "" : Math.max(1, Number(value)));
+  };
+
   const handleOrderClick = async () => {
     const orderDetails = {
       orderId: Math.random().toString(36).substring(2, 15),
@@ -54,6 +61,7 @@ function IndMessPage() {
       customerName: profile.studentname,
       customerEmail: profile.studentemail,
       customerPhone: profile.phone,
+      orderCount: orderCount,
       status: "Pending",
     };
 
@@ -122,7 +130,30 @@ function IndMessPage() {
                 </li>
               </ul>
             </div>
-            <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-3 mb-6 bg-gray-50 p-6 rounded-xl shadow-sm">
+              <h2 className="text-base font-medium text-gray-700 mb-0">Number of orders:</h2>
+              <div className="flex items-center border border-gray-300 rounded-md shadow-sm bg-white">
+                <button
+                  type="button"
+                  className="px-3 py-2 text-lg font-bold text-gray-600 hover:text-yellow-600 focus:outline-none"
+                  onClick={() => setOrderCount((c) => Math.max(1, Number(c) - 1))}
+                >-</button>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={orderCount}
+                  onChange={handleOrderCountChange}
+                  className="w-12 text-center px-1 py-2 border-0 focus:ring-0 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  className="px-3 py-2 text-lg font-bold text-gray-600 hover:text-yellow-600 focus:outline-none"
+                  onClick={() => setOrderCount((c) => Number(c) + 1)}
+                >+</button>
+              </div>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-4">
               <div className="w-full">
                 <Reviews />
               </div>
