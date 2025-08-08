@@ -92,6 +92,7 @@ const Orders = () => {
                   <p><span className="font-semibold">Name:</span> {activeOrder.customerName}</p>
                   <p><span className="font-semibold">Phone:</span> {activeOrder.customerPhone}</p>
                   <p><span className="font-semibold">Status:</span> {activeOrder.status}</p>
+                  <p><span className="font-semibold">Order Count:</span> {activeOrder.orderCount}</p>
                 </div>
                 <button
                   onClick={() => handleMarkCompleted(activeOrder._id)}
